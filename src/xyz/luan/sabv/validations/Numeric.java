@@ -5,6 +5,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.List;
 
 import xyz.luan.sabv.Validation;
 
@@ -32,37 +34,38 @@ public @interface Numeric {
     public static class Validator implements xyz.luan.sabv.Validator<Number, Numeric> {
         
         @Override
-        public String validate(Number number, Numeric annotation) {
+        public List<String> validate(Number number, Numeric annotation) {
             return genericValidate(number, annotation);
         }
         
-        public static String genericValidate(Number number, Numeric annotation) {
+        public static List<String> genericValidate(Number number, Numeric annotation) {
+            List<String> errors = new ArrayList<>();
             if (annotation.type() == Type.INTEGER) {
                 if (number.doubleValue() % 1 != 0)
-                    return "Numeric.notAnInteger";
+                    errors.add("Numeric.notAnInteger");
             }
             
             if (annotation.maxCap() == Cap.INCLUSIVE) {
                 if (number.doubleValue() > annotation.max()) {
-                    return "Numeric.greaterThan{" + annotation.max() + "}";
+                    errors.add("Numeric.greaterThan{" + annotation.max() + "}");
                 }
             } else if (annotation.maxCap() == Cap.EXCLUSIVE) {
                 if (number.doubleValue() >= annotation.max()) {
-                    return "Numeric.greaterOrEqualTo{" + annotation.max() + "}";
+                    errors.add("Numeric.greaterOrEqualTo{" + annotation.max() + "}");
                 }
             }
             
             if (annotation.minCap() == Cap.INCLUSIVE) {
                 if (number.doubleValue() < annotation.min()) {
-                    return "Numeric.smallerThan{" + annotation.min() + "}";
+                    errors.add("Numeric.smallerThan{" + annotation.min() + "}");
                 }
             } else if (annotation.minCap() == Cap.EXCLUSIVE) {
                 if (number.doubleValue() <= annotation.min()) {
-                    return "Numeric.smallerOrEqualTo{" + annotation.min() + "}";
+                    errors.add("Numeric.smallerOrEqualTo{" + annotation.min() + "}");
                 }
             }
             
-            return null;
+            return errors;
         }
     }
     
@@ -74,7 +77,7 @@ public @interface Numeric {
         public static class Validator implements xyz.luan.sabv.Validator<Number, Natural> {
             
             @Override
-            public String validate(Number number, Natural annotation) {
+            public List<String> validate(Number number, Natural annotation) {
                 return Numeric.Validator.genericValidate(number, new Numeric() {
 
                     @Override
@@ -121,7 +124,7 @@ public @interface Numeric {
         public static class Validator implements xyz.luan.sabv.Validator<Number, Min> {
         
             @Override
-            public String validate(Number number, Min annotation) {
+            public List<String> validate(Number number, Min annotation) {
                 return Numeric.Validator.genericValidate(number, new Numeric() {
     
                     @Override
@@ -168,7 +171,7 @@ public @interface Numeric {
         public static class Validator implements xyz.luan.sabv.Validator<Number, Max> {
             
             @Override
-            public String validate(Number number, Max annotation) {
+            public List<String> validate(Number number, Max annotation) {
                 return Numeric.Validator.genericValidate(number, new Numeric() {
     
                     @Override

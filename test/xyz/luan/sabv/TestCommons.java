@@ -16,7 +16,7 @@ public final class TestCommons {
     }
     
     public static void assertListEquals(List<String> actualList, String... expected) {
-        Assert.assertEquals(actualList.size(), expected.length);
+        Assert.assertEquals(expected.length, actualList.size());
         if (expected.length == 0) {
             return;
         }

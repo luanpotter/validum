@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import xyz.luan.sabv.validations.EnumExcept;
+import xyz.luan.sabv.validations.EnumOnly;
 import xyz.luan.sabv.validations.Numeric;
 import xyz.luan.sabv.validations.Required;
 
@@ -22,6 +24,8 @@ public final class ValidationHelper {
         VALIDATORS.put(Numeric.Natural.class, new Numeric.Natural.Validator());
         VALIDATORS.put(Numeric.Min.class, new Numeric.Min.Validator());
         VALIDATORS.put(Numeric.Max.class, new Numeric.Max.Validator());
+        VALIDATORS.put(EnumOnly.class, new EnumOnly.Validator());
+        VALIDATORS.put(EnumExcept.class, new EnumExcept.Validator());
     }
     
     private ValidationHelper() {
@@ -56,12 +60,46 @@ public final class ValidationHelper {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static String validateValueWith(Object value, Annotation annotation) {
+    private static List<String> validateValueWith(Object value, Annotation annotation) {
+        int descendLevel = getDescendLevelForValue(value, annotation);
+        if (descendLevel == -1) {
+            throw new ValidationException("Validation annotation " + annotation + " used on unsupported type " + value.getClass() + ". Check documentation for a list of suported types.");
+        }
+
         Validator validator = VALIDATORS.get(annotation.annotationType());
         if (validator == null) {
             throw new ValidationException("No validator added to this annotation! The annotation " + annotation + " does not have a validator.");
         }
-        return validator.validate(value, annotation);
+        
+        if (descendLevel == 0) {
+            return validator.validate(value, annotation);
+        }
+
+        //TODO array
+        Object currentValue = value;
+        return validator.validate(currentValue, annotation);
+    }
+
+    private static int getDescendLevelForValue(Object value, Annotation annotation) {
+        if (value == null) {
+            return 0;
+        }
+        
+        return getDescentLevelForType(value.getClass(), annotation);
+    }
+    
+    private static int getDescentLevelForType(Class<?> typeClass, Annotation annotation) {
+        for (Class<?> clazz : annotation.annotationType().getAnnotation(Validation.class).value()) {
+            if (clazz.isAssignableFrom(typeClass)) {
+                return 0;
+            }
+        }
+        
+        if (typeClass.isArray()) {
+            return 1 + getDescentLevelForType(typeClass.getComponentType(), annotation);
+        }
+
+        return -1;
     }
 
     public static List<String> validate(Object obj) {
@@ -80,9 +118,9 @@ public final class ValidationHelper {
         }
 
         for (Annotation ann : globalValidations) {
-            if (errors.isEmpty() || !ann.annotationType().getAnnotation(Validation.class).requireValidFields()) {
-                String error = validateValueWith(obj, ann);
-                if (error != null) {
+            if (errors.isEmpty()) {
+                List<String> currentErrors = validateValueWith(obj, ann);
+                for (String error : currentErrors) {
                     errors.add(errorPrefix + error);
                 }
             }
