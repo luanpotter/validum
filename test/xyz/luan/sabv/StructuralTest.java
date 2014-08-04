@@ -1,6 +1,5 @@
 package xyz.luan.sabv;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -9,7 +8,9 @@ import org.junit.Test;
 import xyz.luan.sabv.entities.Address;
 import xyz.luan.sabv.entities.Person;
 
-public class SimpleTest {
+import static xyz.luan.sabv.TestCommons.*;
+
+public class StructuralTest {
     
     @Test
     public void testValidPersonWithValidAddress() {
@@ -43,23 +44,5 @@ public class SimpleTest {
         Address address = new Address(null, 13);
         List<String> errors = ValidationHelper.validate(address);
         assertListEquals(errors, ":street:Required.empty");
-    }
-
-    private void assertListEmpty(List<String> actualList) {
-        assertListEquals(actualList);
-    }
-    
-    private void assertListEquals(List<String> actualList, String... expected) {
-        Assert.assertEquals(actualList.size(), expected.length);
-        if (expected.length == 0) {
-            return;
-        }
-
-        String[] actual = actualList.toArray(new String [actualList.size()]);
-        
-        Arrays.sort(expected);
-        Arrays.sort(actual);
-        
-        Assert.assertArrayEquals(expected, actual);
     }
 }

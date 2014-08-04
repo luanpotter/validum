@@ -11,5 +11,13 @@ import xyz.luan.sabv.Validation;
 @Target(ElementType.FIELD)
 @Validation(Object.class)
 public @interface Required {
+    
+    public static class Validator implements xyz.luan.sabv.Validator<Object, Required> {
+
+        @Override
+        public String validate(Object object, Required annotation) {
+            return object == null ? "Required.empty" : null;
+        }
+    }
 
 }

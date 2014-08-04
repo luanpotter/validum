@@ -1,5 +1,6 @@
 package xyz.luan.sabv.entities;
 
+import xyz.luan.sabv.validations.Numeric.Natural;
 import xyz.luan.sabv.validations.Required;
 
 public class Address {
@@ -7,6 +8,7 @@ public class Address {
     @Required
     private String street;
     
+    @Natural
     private int number;
     
     private String complement;

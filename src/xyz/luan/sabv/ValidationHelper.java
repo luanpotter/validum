@@ -10,20 +10,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import xyz.luan.sabv.validations.Numeric;
 import xyz.luan.sabv.validations.Required;
 
 public final class ValidationHelper {
 
     public static final Map<Class<? extends Annotation>, Validator<?, ? extends Annotation>> VALIDATORS = new HashMap<>();
     static {
-        VALIDATORS.put(Required.class, new Validator<Object, Required>() {
-
-            @Override
-            public String validate(Object object, Required annotation) {
-                return object == null ? "Required.empty" : null;
-            }
-            
-        });
+        VALIDATORS.put(Required.class, new Required.Validator());
+        VALIDATORS.put(Numeric.class, new Numeric.Validator());
+        VALIDATORS.put(Numeric.Natural.class, new Numeric.Natural.Validator());
+        VALIDATORS.put(Numeric.Min.class, new Numeric.Min.Validator());
+        VALIDATORS.put(Numeric.Max.class, new Numeric.Max.Validator());
     }
     
     private ValidationHelper() {
