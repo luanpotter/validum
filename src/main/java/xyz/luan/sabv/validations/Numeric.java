@@ -17,8 +17,8 @@ public @interface Numeric {
 
     Type type() default Type.DEFAULT;
     
-    int min() default 0;
-    int max() default 0;
+    double min() default .0;
+    double max() default .0;
 
     Cap minCap() default Cap.INCLUSIVE;
     Cap maxCap() default Cap.NONE;
@@ -70,7 +70,7 @@ public @interface Numeric {
     }
     
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
+    @Target(ElementType.TYPE_USE)
     @Validation({ int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class })
     public @interface Natural {
         
@@ -91,12 +91,12 @@ public @interface Numeric {
                     }
 
                     @Override
-                    public int min() {
+                    public double min() {
                         return 0;
                     }
 
                     @Override
-                    public int max() {
+                    public double max() {
                         return 0;
                     }
 
@@ -115,10 +115,10 @@ public @interface Numeric {
     }
 
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
+    @Target(ElementType.TYPE_USE)
     @Validation({ int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class })
     public @interface Min {
-        int value();
+        double value();
         Cap cap() default Cap.INCLUSIVE;
         
         public static class Validator implements xyz.luan.sabv.Validator<Number, Min> {
@@ -133,7 +133,7 @@ public @interface Numeric {
                     }
                     
                     @Override
-                    public int min() {
+                    public double min() {
                         return annotation.value();
                     }
     
@@ -148,7 +148,7 @@ public @interface Numeric {
                     }
 
                     @Override
-                    public int max() {
+                    public double max() {
                         return 0;
                     }
 
@@ -162,10 +162,10 @@ public @interface Numeric {
     }
     
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
+    @Target(ElementType.TYPE_USE)
     @Validation({ int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class })
     public @interface Max {
-        int value();
+        double value();
         Cap cap() default Cap.INCLUSIVE;
         
         public static class Validator implements xyz.luan.sabv.Validator<Number, Max> {
@@ -180,7 +180,7 @@ public @interface Numeric {
                     }
                     
                     @Override
-                    public int max() {
+                    public double max() {
                         return annotation.value();
                     }
     
@@ -195,7 +195,7 @@ public @interface Numeric {
                     }
 
                     @Override
-                    public int min() {
+                    public double min() {
                         return 0;
                     }
 
