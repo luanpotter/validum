@@ -11,7 +11,7 @@ import java.util.List;
 import xyz.luan.sabv.Validation;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.TYPE })
+@Target({ ElementType.FIELD, ElementType.TYPE_USE })
 @Validation(Object.class)
 public @interface Required {
     
