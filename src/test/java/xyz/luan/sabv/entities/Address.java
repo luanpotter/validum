@@ -1,8 +1,10 @@
 package xyz.luan.sabv.entities;
 
+import xyz.luan.sabv.customs.ValidAddress;
 import xyz.luan.sabv.validations.Numeric.Natural;
 import xyz.luan.sabv.validations.Required;
 
+@ValidAddress
 public class Address {
 
     @Required

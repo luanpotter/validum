@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 
 public final class TestCommons {
-    
+
     private TestCommons() {
         throw new RuntimeException("Should not be instanciated.");
     }
