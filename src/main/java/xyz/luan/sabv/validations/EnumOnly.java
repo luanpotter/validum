@@ -11,7 +11,7 @@ import java.util.List;
 import xyz.luan.sabv.Validation;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ ElementType.FIELD, ElementType.TYPE_USE })
 @Validation(Enum.class)
 public @interface EnumOnly {
 
@@ -21,6 +21,10 @@ public @interface EnumOnly {
 
         @Override
         public List<String> validate(Enum<?> enumeration, EnumOnly annotation) {
+            if (enumeration == null) {
+                return Collections.emptyList();
+            }
+
             StringBuilder b = new StringBuilder();
             for (String t : annotation.value()) {
                 if (enumeration.name().equalsIgnoreCase(t)) {

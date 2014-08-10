@@ -21,7 +21,7 @@ public class AnnotationsTest {
     public void testInvalidNumeric() {
         Address address = new Address("Sesame Street", -2);
         List<String> errors = ValidationHelper.validate(address);
-        assertListEquals(errors, ":number:Numeric.smallerThan{0}");
+        assertListEquals(errors, ":number:Numeric.smallerThan{0.0}");
     }
     
 }

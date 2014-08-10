@@ -6,13 +6,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import xyz.luan.sabv.Validation;
+import xyz.luan.sabv.Validation.DefaultTypes;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-@Validation({ int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class })
+@Target({ ElementType.FIELD, ElementType.TYPE_USE })
+@Validation(defaultType = { DefaultTypes.NUMBER })
 public @interface Numeric {
 
     Type type() default Type.DEFAULT;
@@ -39,6 +41,10 @@ public @interface Numeric {
         }
         
         public static List<String> genericValidate(Number number, Numeric annotation) {
+            if (number == null) {
+                return Collections.emptyList();
+            }
+
             List<String> errors = new ArrayList<>();
             if (annotation.type() == Type.INTEGER) {
                 if (number.doubleValue() % 1 != 0)
@@ -70,8 +76,8 @@ public @interface Numeric {
     }
     
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE_USE)
-    @Validation({ int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class })
+    @Target({ ElementType.FIELD, ElementType.TYPE_USE })
+    @Validation(defaultType = { DefaultTypes.NUMBER })
     public @interface Natural {
         
         public static class Validator implements xyz.luan.sabv.Validator<Number, Natural> {
@@ -115,8 +121,8 @@ public @interface Numeric {
     }
 
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE_USE)
-    @Validation({ int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class })
+    @Target({ ElementType.FIELD, ElementType.TYPE_USE })
+    @Validation(defaultType = { DefaultTypes.NUMBER })
     public @interface Min {
         double value();
         Cap cap() default Cap.INCLUSIVE;
@@ -162,8 +168,8 @@ public @interface Numeric {
     }
     
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE_USE)
-    @Validation({ int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class })
+    @Target({ ElementType.FIELD, ElementType.TYPE_USE })
+    @Validation(defaultType = { DefaultTypes.NUMBER })
     public @interface Max {
         double value();
         Cap cap() default Cap.INCLUSIVE;

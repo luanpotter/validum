@@ -11,7 +11,7 @@ import java.util.List;
 import xyz.luan.sabv.Validation;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ ElementType.FIELD, ElementType.TYPE_USE })
 @Validation(Enum.class)
 public @interface EnumExcept {
 
@@ -21,6 +21,10 @@ public @interface EnumExcept {
 
         @Override
         public List<String> validate(Enum<?> enumeration, EnumExcept annotation) {
+            if (enumeration == null) {
+                return Collections.emptyList();
+            }
+
             for (String t : annotation.value()) {
                 if (enumeration.name().equalsIgnoreCase(t)) {
                     return Arrays.asList("EnumExcept.was{" + t + "}"); 

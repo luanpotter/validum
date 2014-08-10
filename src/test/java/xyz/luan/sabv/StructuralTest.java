@@ -49,7 +49,7 @@ public class StructuralTest {
         Person person = new AdvancedPerson("Flying Rat Man", 21, address, Power.FLIGHT, Weakness.KRIPTONITE);
         
         List<String> errors = ValidationHelper.validate(person);
-        assertListEquals(errors, ":address:number:Numeric.smallerThan{0}", ":weakness:EnumExcept.was{kriptonite}");
+        assertListEquals(errors, ":address:number:Numeric.smallerThan{0.0}", ":weakness:EnumExcept.was{kriptonite}");
     }
     
     @Test
@@ -68,7 +68,6 @@ public class StructuralTest {
         
         List<String> errors = ValidationHelper.validate(person);
         Assert.assertEquals(2, errors.size());
-        errors.sort(String.CASE_INSENSITIVE_ORDER);
         assertListEquals(errors, ":address:street:Required.empty", ":name:Required.empty");
     }
 
