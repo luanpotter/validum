@@ -35,5 +35,10 @@
       <version>4.8.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>xyz.luan</groupId>
+      <artifactId>reflection-utils</artifactId>
+      <version>0.1.1</version>
+    </dependency>
   </dependencies>
 </project>

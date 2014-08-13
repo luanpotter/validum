@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import xyz.luan.reflection.ReflectionUtils;
 import xyz.luan.sabv.validations.EnumExcept;
 import xyz.luan.sabv.validations.EnumOnly;
 import xyz.luan.sabv.validations.Numeric;
@@ -95,7 +96,7 @@ public final class ValidationHelper {
         List<String> errors = new ArrayList<>();
 
         if (obj != null) {
-            List<Field> fields = ReflectionUtils.getFieldsRecursively(obj.getClass());
+            List<Field> fields = ReflectionUtils.getFieldsRecursivelyExceptJavaClasses(obj.getClass());
             for (Field f : fields) {
                 List<Annotation> globalForField = getAllGlobalValidationsForType(f);
                 String fieldPrefix = errorPrefix + f.getName() + ":";
