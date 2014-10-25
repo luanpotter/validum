@@ -11,7 +11,7 @@ Features
  * Full support for both inheritance and composition, how many levels desired;
  * Fine control of arrays' components or lists' elements with Java 8's TYPE_USE target option;
  * Support for custom validations, just create your own annotation and annotate it with @Validator annotation, and then add a custom Validator for it;
- * Class level validations; that is, the annotations can be added to the class declaration, to validate every object's class as a whole;
+ * Class level validations; that is, the annotations can be added to the class declaration, to validate the class's object as a whole;
  * Each annotation must specify the types to which it applies, and exceptions are thrown if they are missused.
 
 Planned Features
