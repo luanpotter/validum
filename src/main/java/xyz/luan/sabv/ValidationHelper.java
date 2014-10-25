@@ -46,11 +46,11 @@ public final class ValidationHelper {
         return ann.annotationType().getAnnotation(Validation.class) != null;
     }
 
-    static List<Annotation> getValidationAnnotations(Class<?> clazz) {
+    public static List<Annotation> getValidationAnnotations(Class<?> clazz) {
         return getValidationAnnotations(clazz.getAnnotations());
     }
 
-    static List<Annotation> getValidationAnnotations(Annotation[] annotations) {
+    private static List<Annotation> getValidationAnnotations(Annotation[] annotations) {
         List<Annotation> validations = new ArrayList<>();
         for (Annotation ann : annotations) {
             if (isValidationAnnotation(ann)) {
@@ -61,7 +61,7 @@ public final class ValidationHelper {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    static List<String> validateValueWith(Object value, Annotation annotation) {
+    private static List<String> validateValueWith(Object value, Annotation annotation) {
         if (!isValidAnnotationType(value, annotation)) {
             throw new ValidationException("Validation annotation " + annotation + " used on unsupported type " + value.getClass() + ". Check documentation for a list of suported types.");
         }
@@ -74,7 +74,7 @@ public final class ValidationHelper {
         return validator.validate(value, annotation);
     }
 
-    static boolean isValidAnnotationType(Object value, Annotation annotation) {
+    private static boolean isValidAnnotationType(Object value, Annotation annotation) {
         if (value == null) {
             return true;
         }
@@ -121,7 +121,8 @@ public final class ValidationHelper {
         return errors;
     }
 
-    static List<String> getErrorsFromElements(String fieldPrefix, Object currentLevelFieldValue, AnnotatedType at) {
+    //TODO refactor, use brand new AnnotationsHelper
+    private static List<String> getErrorsFromElements(String fieldPrefix, Object currentLevelFieldValue, AnnotatedType at) {
         List<String> errors = new ArrayList<>();
         if (currentLevelFieldValue.getClass().isArray()) {
             AnnotatedArrayType annotatedType = (AnnotatedArrayType) at;
@@ -202,18 +203,18 @@ public final class ValidationHelper {
         return element.toString().replace("[", "\\[").replace("]", "\\]");
     }
 
-    static List<Annotation> getValidationAnnotationsFrom(
+    private static List<Annotation> getValidationAnnotationsFrom(
             Annotation[] allList) {
         return stream(allList).filter(ValidationHelper::isValidationAnnotation).collect(Collectors.toList());
     }
 
-    static List<Annotation> getAllGlobalValidationsForType(Field f) {
+    private static List<Annotation> getAllGlobalValidationsForType(Field f) {
         List<Annotation> globalForField = getValidationAnnotations(f.getType());
         globalForField.addAll(getValidationAnnotations(f.getAnnotations()));
         return globalForField;
     }
 
-    static Object getFieldValue(Object obj, Field f) {
+    private static Object getFieldValue(Object obj, Field f) {
         f.setAccessible(true);
         try {
             return f.get(obj);
