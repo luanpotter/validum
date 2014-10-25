@@ -20,7 +20,7 @@ public class God {
     @Required
     @Array(maxLength = 2)
     private List<@Required Weakness> weaknesses;
-
+    
     @Required
     @Array.Fixed(3)
     private float @Array.Fixed(4) [] @Min(3.5) @Max(4) [] calculationMatrix;

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import xyz.luan.sabv.entities.Address;
 
-public class AnnotationsTest {
+public class AnnotationsTest extends BaseTestCase {
 
     @Test
     public void testInvalidRequired() {
@@ -22,6 +22,13 @@ public class AnnotationsTest {
         Address address = new Address("Sesame Street", -2);
         List<String> errors = ValidationHelper.validate(address);
         assertListEquals(errors, ":number:Numeric.smallerThan{0.0}");
+    }
+
+    @Test
+    public void testValidAddress() {
+        Address address = new Address("Sesame Street", 13);
+        List<String> errors = ValidationHelper.validate(address);
+        assertListEmpty(errors);
     }
     
 }

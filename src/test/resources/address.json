@@ -1,0 +1,12 @@
+{
+    "class": {
+        "@xyz.luan.sabv.customs.ValidAddress": {}
+    },
+    "street": {
+        "@xyz.luan.sabv.validations.Required": {}
+    },
+    "number": {
+        "@xyz.luan.sabv.validations.Numeric.Natural": {}
+    },
+    "complement": {}
+}

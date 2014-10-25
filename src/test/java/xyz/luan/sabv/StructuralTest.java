@@ -6,22 +6,15 @@ import static xyz.luan.sabv.TestCommons.assertListEquals;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-import xyz.luan.sabv.customs.ValidAddress;
 import xyz.luan.sabv.entities.Address;
 import xyz.luan.sabv.entities.AdvancedPerson;
 import xyz.luan.sabv.entities.Person;
 import xyz.luan.sabv.entities.Power;
 import xyz.luan.sabv.entities.Weakness;
 
-public class StructuralTest {
-
-    @Before
-    public void setup() {
-        ValidationHelper.VALIDATORS.put(ValidAddress.class, new ValidAddress.Validator());
-    }
+public class StructuralTest extends BaseTestCase {
 
     @Test
     public void testValidAdvancedPersonWithValidAddress() {

@@ -16,7 +16,7 @@ import xyz.luan.sabv.entities.God;
 import xyz.luan.sabv.entities.Power;
 import xyz.luan.sabv.entities.Weakness;
 
-public class ArraysTest {
+public class ArraysTest extends BaseTestCase {
 
     @Test
     public void testArraysFirstLevelAnnotationsInvalid() {

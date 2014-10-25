@@ -1,0 +1,33 @@
+{
+    "class": {},
+    "power": {
+        "@xyz.luan.sabv.validations.EnumOnly": {
+            "value": [
+                "strength",
+                "flight",
+                "telekinesis"
+            ]
+        }
+    },
+    "weakness": {
+        "@xyz.luan.sabv.validations.EnumExcept": {
+            "value": [
+                "kriptonite"
+            ]
+        }
+    },
+    "name": {
+        "@xyz.luan.sabv.validations.Required": {}
+    },
+    "age": {
+        "@xyz.luan.sabv.validations.Numeric": {
+            "minCap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+            "maxCap": "xyz.luan.sabv.validations.Numeric.Cap.NONE",
+            "type": "xyz.luan.sabv.validations.Numeric.Type.INTEGER",
+            "min": 0,
+            "max": 0
+        }
+    },
+    "address": {
+   }
+}

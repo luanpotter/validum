@@ -1,0 +1,82 @@
+{
+    "class": {},
+    "name": {},
+    "powers": {
+        "@xyz.luan.sabv.validations.Required": {},
+        "@xyz.luan.sabv.validations.Array": {
+            "maxLength": -1,
+            "minLength": 2
+        },
+        "[]": {
+            "@xyz.luan.sabv.validations.Required": {}
+        }
+    },
+    "weaknesses": {
+        "@xyz.luan.sabv.validations.Required": {},
+        "@xyz.luan.sabv.validations.Array": {
+            "maxLength": 2,
+            "minLength": -1
+        },
+        "[]": {
+            "@xyz.luan.sabv.validations.Required": {}
+        }
+    },
+    "calculationMatrix": {
+        "@xyz.luan.sabv.validations.Required": {},
+        "@xyz.luan.sabv.validations.Array.Fixed": {
+            "value": 3
+        },
+        "[]": {
+            "@xyz.luan.sabv.validations.Array.Fixed": {
+                "value": 4
+            },
+            "[]": {
+                "@xyz.luan.sabv.validations.Numeric.Min": {
+                    "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                    "value": 3.5
+                },
+                "@xyz.luan.sabv.validations.Numeric.Max": {
+                    "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                    "value": 4
+                }
+            }
+        }
+    },
+    "secondaryMatrixesByName": {
+        "@xyz.luan.sabv.validations.Array": {
+            "maxLength": -1,
+            "minLength": 1
+        },
+        "[k]": {
+            "@xyz.luan.sabv.customs.PalindromeString": {},
+            "@xyz.luan.sabv.validations.Required": {}
+        },
+        "[v]": {
+            "@xyz.luan.sabv.validations.Required": {},
+            "@xyz.luan.sabv.validations.Array": {
+                "maxLength": -1,
+                "minLength": 1
+            },
+            "[]": {
+                "@xyz.luan.sabv.validations.Array.Fixed": {
+                    "value": 4
+                },
+                "[]": {
+                    "@xyz.luan.sabv.validations.Array.Fixed": {
+                        "value": 4
+                    },
+                    "[]": {
+                        "@xyz.luan.sabv.validations.Numeric.Min": {
+                            "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                            "value": 3.5
+                        },
+                        "@xyz.luan.sabv.validations.Numeric.Max": {
+                            "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                            "value": 4
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

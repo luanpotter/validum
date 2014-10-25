@@ -4,18 +4,12 @@ import static xyz.luan.sabv.TestCommons.assertListEquals;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import xyz.luan.sabv.customs.ValidAddress;
 import xyz.luan.sabv.entities.Address;
 import xyz.luan.sabv.entities.Person;
 
-public class ClassLevelValidationTest {
-    @Before
-    public void setup() {
-        ValidationHelper.VALIDATORS.put(ValidAddress.class, new ValidAddress.Validator());
-    }
+public class ClassLevelValidationTest extends BaseTestCase {
 
     @Test
     public void testInvalidAddressDirectly() {

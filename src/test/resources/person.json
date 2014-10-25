@@ -1,0 +1,17 @@
+{
+    "class": {},
+    "name": {
+        "@xyz.luan.sabv.validations.Required": {}
+    },
+    "age": {
+        "@xyz.luan.sabv.validations.Numeric": {
+            "maxCap": "xyz.luan.sabv.validations.Numeric.Cap.NONE",
+            "minCap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+            "type": "xyz.luan.sabv.validations.Numeric.Type.INTEGER",
+            "min": 0,
+            "max": 0
+        }
+    },
+    "address": {
+    }
+}

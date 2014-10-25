@@ -46,11 +46,11 @@ public final class ValidationHelper {
         return ann.annotationType().getAnnotation(Validation.class) != null;
     }
 
-    private static List<Annotation> getValidationAnnotations(Class<?> clazz) {
+    static List<Annotation> getValidationAnnotations(Class<?> clazz) {
         return getValidationAnnotations(clazz.getAnnotations());
     }
 
-    private static List<Annotation> getValidationAnnotations(Annotation[] annotations) {
+    static List<Annotation> getValidationAnnotations(Annotation[] annotations) {
         List<Annotation> validations = new ArrayList<>();
         for (Annotation ann : annotations) {
             if (isValidationAnnotation(ann)) {
@@ -61,7 +61,7 @@ public final class ValidationHelper {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static List<String> validateValueWith(Object value, Annotation annotation) {
+    static List<String> validateValueWith(Object value, Annotation annotation) {
         if (!isValidAnnotationType(value, annotation)) {
             throw new ValidationException("Validation annotation " + annotation + " used on unsupported type " + value.getClass() + ". Check documentation for a list of suported types.");
         }
@@ -74,7 +74,7 @@ public final class ValidationHelper {
         return validator.validate(value, annotation);
     }
 
-    private static boolean isValidAnnotationType(Object value, Annotation annotation) {
+    static boolean isValidAnnotationType(Object value, Annotation annotation) {
         if (value == null) {
             return true;
         }
@@ -121,7 +121,7 @@ public final class ValidationHelper {
         return errors;
     }
 
-    private static List<String> getErrorsFromElements(String fieldPrefix, Object currentLevelFieldValue, AnnotatedType at) {
+    static List<String> getErrorsFromElements(String fieldPrefix, Object currentLevelFieldValue, AnnotatedType at) {
         List<String> errors = new ArrayList<>();
         if (currentLevelFieldValue.getClass().isArray()) {
             AnnotatedArrayType annotatedType = (AnnotatedArrayType) at;
@@ -164,7 +164,7 @@ public final class ValidationHelper {
 
             Iterable<?> it = Collection.class.cast(currentLevelFieldValue);
             it.forEach(element -> {
-                String elementPrefix = fieldPrefix + "[" + element + "]:";
+                String elementPrefix = fieldPrefix + "[" + stringfy(element) + "]:";
                 errors.addAll(validate(elementPrefix, element, globalsForElement));
                 if (element != null) {
                     errors.addAll(getErrorsFromElements(elementPrefix, element, elementAnnotedType));
@@ -182,7 +182,7 @@ public final class ValidationHelper {
             Map<?, ?> map = Map.class.cast(currentLevelFieldValue);
             Set<?> keySet = map.keySet();
             for (Object element : keySet) {
-                String elementPrefix = fieldPrefix + "[" + element + "]:";
+                String elementPrefix = fieldPrefix + "[" + stringfy(element) + "]:";
                 errors.addAll(validate(elementPrefix, element, globalsForElement0));
                 if (element != null) {
                     errors.addAll(getErrorsFromElements(elementPrefix, element, elementAnnotedTypes[0]));
@@ -198,18 +198,22 @@ public final class ValidationHelper {
         return errors;
     }
 
-    private static List<Annotation> getValidationAnnotationsFrom(
+    private static String stringfy(Object element) {
+        return element.toString().replace("[", "\\[").replace("]", "\\]");
+    }
+
+    static List<Annotation> getValidationAnnotationsFrom(
             Annotation[] allList) {
         return stream(allList).filter(ValidationHelper::isValidationAnnotation).collect(Collectors.toList());
     }
 
-    private static List<Annotation> getAllGlobalValidationsForType(Field f) {
+    static List<Annotation> getAllGlobalValidationsForType(Field f) {
         List<Annotation> globalForField = getValidationAnnotations(f.getType());
         globalForField.addAll(getValidationAnnotations(f.getAnnotations()));
         return globalForField;
     }
 
-    private static Object getFieldValue(Object obj, Field f) {
+    static Object getFieldValue(Object obj, Field f) {
         f.setAccessible(true);
         try {
             return f.get(obj);
