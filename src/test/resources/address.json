@@ -1,12 +1,17 @@
 {
-    "class": {
+    "[c]": {
+        "[t]": "xyz.luan.sabv.entities.Address",
         "@xyz.luan.sabv.customs.ValidAddress": {}
     },
     "street": {
+        "[t]": "java.lang.String",
         "@xyz.luan.sabv.validations.Required": {}
     },
     "number": {
+        "[t]": "int",
         "@xyz.luan.sabv.validations.Numeric.Natural": {}
     },
-    "complement": {}
+    "complement": {
+        "[t]": "java.lang.String"
+    }
 }

@@ -7,9 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class AnnotationsToJson {
+import xyz.luan.sabv.ClassOutlinerNames;
 
-    private AnnotationsToJson() {
+public final class ToJson {
+
+    private ToJson() {
         throw new RuntimeException("Should not be instancited");
     }
 
@@ -42,13 +44,13 @@ public final class AnnotationsToJson {
             return value.toString();
         }
         if (value.getClass().isPrimitive() || value instanceof String) {
-            return asString(value.toString());
+            return strToJson(value.toString());
         }
         if (value instanceof Class<?>) {
-            return asString(((Class<?>) value).getCanonicalName());
+            return strToJson(((Class<?>) value).getCanonicalName());
         }
         if (value.getClass().isEnum()) {
-            return asString(value.getClass().getCanonicalName() + "." + value.toString());
+            return strToJson(value.getClass().getCanonicalName() + "." + value.toString());
         }
         if (value.getClass().isAnnotation()) {
             return annotationToJson((Annotation) value);
@@ -68,7 +70,13 @@ public final class AnnotationsToJson {
         return "[" + elements + "]";
     }
 
-    private static String asString(String str) {
-        return "\"" + str + "\"";
+    public static String strToJson(String str) {
+        return '"' + str + '"';
+    }
+
+    public static String typeToJson(Class<?> type) {
+        String key = ClassOutlinerNames.FIELD_TYPE.val();
+        String value = type.isArray() ? ClassOutlinerNames.ARRAY_TYPE.val() : ToJson.strToJson(type.getCanonicalName());
+        return key + ": " + value;
     }
 }

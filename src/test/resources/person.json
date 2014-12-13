@@ -1,9 +1,13 @@
 {
-    "class": {},
+    "[c]": {
+        "[t]" : "xyz.luan.sabv.entities.Person"
+    },
     "name": {
+        "[t]" : "java.lang.String",
         "@xyz.luan.sabv.validations.Required": {}
     },
     "age": {
+        "[t]" : "int",
         "@xyz.luan.sabv.validations.Numeric": {
             "maxCap": "xyz.luan.sabv.validations.Numeric.Cap.NONE",
             "minCap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
@@ -13,5 +17,6 @@
         }
     },
     "address": {
+        "[t]" : "xyz.luan.sabv.entities.Address"
     }
 }

@@ -22,7 +22,8 @@ public final class AnnotationsHelper {
     }
 
     public static AnnotationLevel getNestedAnnotations(Field f) {
-        List<AnnotationElement> result = Arrays.stream(f.getAnnotations()).map(ann -> new SimpleAnnotationElement(ann)).collect(Collectors.toList());
+        List<AnnotationElement> result = Arrays.stream(f.getAnnotations()).map(ann -> new SimpleAnnotationElement(ann))
+                .collect(Collectors.toList());
         addAnnotationsAtCurrentLevel(result, f.getGenericType(), f.getAnnotatedType());
         return new AnnotationLevel(result);
     }
@@ -47,21 +48,21 @@ public final class AnnotationsHelper {
     private static AnnotationElement getArrayAnnotatedElement(AnnotatedType at, Type childType, AnnotatedType childAnnotatedType) {
         List<AnnotationElement> list = toAnnotationElementList(at.getAnnotations());
         addAnnotationsAtCurrentLevel(list, childType, childAnnotatedType);
-        return new ArrayAnnotationElement(list);
+        return new ArrayAnnotationElement(childType, list);
     }
-    
+
     private static AnnotationElement getListAnnotatedElement(Type childType, AnnotatedType childAnnotatedType) {
         List<AnnotationElement> list = toAnnotationElementList(childType, childAnnotatedType);
-        return new ArrayAnnotationElement(list);
+        return new ArrayAnnotationElement(childType, list);
     }
 
     private static AnnotationElement getMapAnnotationElement(AnnotatedType[] att, Type[] types) {
         List<AnnotationElement> keyList = toAnnotationElementList(types[0], att[0]);
         List<AnnotationElement> valueList = toAnnotationElementList(types[1], att[1]);
 
-        return new MapAnnotationElement(keyList, valueList);
+        return new MapAnnotationElement(types[0], keyList, types[1], valueList);
     }
-    
+
     private static List<AnnotationElement> toAnnotationElementList(Type childType, AnnotatedType childAnnotatedType) {
         List<AnnotationElement> list = toAnnotationElementList(childAnnotatedType.getAnnotations());
         addAnnotationsAtCurrentLevel(list, childType, childAnnotatedType);

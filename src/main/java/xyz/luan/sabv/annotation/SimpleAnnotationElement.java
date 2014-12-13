@@ -11,6 +11,6 @@ public class SimpleAnnotationElement implements AnnotationElement {
 
     @Override
     public String toJson() {
-        return AnnotationsToJson.annotationToJson(annotation);
+        return ToJson.annotationToJson(annotation);
     }
 }

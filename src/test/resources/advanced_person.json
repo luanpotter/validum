@@ -1,6 +1,9 @@
 {
-    "class": {},
+    "[c]": {
+        "[t]" : "xyz.luan.sabv.entities.AdvancedPerson"
+    },
     "power": {
+        "[t]" : "xyz.luan.sabv.entities.Power",
         "@xyz.luan.sabv.validations.EnumOnly": {
             "value": [
                 "strength",
@@ -10,6 +13,7 @@
         }
     },
     "weakness": {
+        "[t]" : "xyz.luan.sabv.entities.Weakness",
         "@xyz.luan.sabv.validations.EnumExcept": {
             "value": [
                 "kriptonite"
@@ -17,9 +21,11 @@
         }
     },
     "name": {
+        "[t]" : "java.lang.String",
         "@xyz.luan.sabv.validations.Required": {}
     },
     "age": {
+        "[t]" : "int",
         "@xyz.luan.sabv.validations.Numeric": {
             "minCap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
             "maxCap": "xyz.luan.sabv.validations.Numeric.Cap.NONE",
@@ -29,5 +35,6 @@
         }
     },
     "address": {
+        "[t]" : "xyz.luan.sabv.entities.Address"
    }
 }

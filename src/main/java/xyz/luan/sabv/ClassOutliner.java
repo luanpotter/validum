@@ -2,14 +2,13 @@ package xyz.luan.sabv;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import xyz.luan.reflection.ReflectionUtils;
 import xyz.luan.sabv.annotation.AnnotationsHelper;
-import xyz.luan.sabv.annotation.AnnotationsToJson;
+import xyz.luan.sabv.annotation.ToJson;
 
 public final class ClassOutliner {
 
@@ -22,17 +21,22 @@ public final class ClassOutliner {
     }
 
     public static String getJson(Class<?> c, List<Field> fields) {
-        Stream<String> classJson = Arrays.asList("\"class\": " + getClassLevelAnnotations(c)).stream();
-        Stream<String> fieldsJson = fields.stream().map(field -> "\"" + field.getName() + "\" : " + AnnotationsHelper.getNestedAnnotations(field).toJson());
-        String elements = Stream.concat(classJson, fieldsJson).collect(Collectors.joining(","));
-        return "{" + elements + "}";
+        String classElement = ClassOutlinerNames.CLASS_LEVEL_ANNOTATION.val() + ": " + getClassLevelAnnotations(c);
+        Stream<String> fieldsJson = fields.stream().map(field -> "\"" + field.getName() + "\" : " + parseField(field));
+        return "{" + StreamUtil.add(classElement, fieldsJson).collect(Collectors.joining(",")) + "}";
+    }
+
+    private static String parseField(Field field) {
+        return AnnotationsHelper.getNestedAnnotations(field).toJson(field.getType());
     }
 
     public static String getClassLevelAnnotations(Class<?> c) {
-        return "{" + getAnnotations(ValidationHelper.getValidationAnnotations(c)).collect(Collectors.joining(",")) + "}";
+        Stream<String> annotations = getAnnotations(ValidationHelper.getValidationAnnotations(c));
+        String classType = ToJson.typeToJson(c);
+        return "{" + StreamUtil.add(classType, annotations).collect(Collectors.joining(",")) + "}";
     }
 
     private static Stream<String> getAnnotations(List<Annotation> annotations) {
-        return annotations.stream().map(ann -> AnnotationsToJson.annotationToJson(ann));
+        return annotations.stream().map(ann -> ToJson.annotationToJson(ann));
     }
 }
