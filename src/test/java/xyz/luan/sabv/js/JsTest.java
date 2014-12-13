@@ -16,10 +16,15 @@ public class JsTest {
         i = JsSetup.setupInvocable();
     }
 
-    @Test @Ignore
+    @Ignore
+    @Test
     public void testBlah() throws NoSuchMethodException, ScriptException {
-        Object ret = i.invokeFunction("runFor", "this is a test");
+        Object ret = runValidate("'my string'");
         System.out.println(ret);
     }
-    
+
+    private Object runValidate(String arg) throws ScriptException, NoSuchMethodException {
+        return i.invokeFunction("eval", "sabv.validate(" + arg + ")");
+    }
+
 }
