@@ -1,5 +1,7 @@
 package xyz.luan.sabv.js;
 
+import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -24,6 +26,21 @@ public final class JsSetup {
         engine.eval(reader("sabv.js"));
 
         return invocable;
+    }
+
+    public static String readString(String fileName) {
+        StringBuilder text = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(reader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+        } catch (EOFException ex) {
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return text.toString();
     }
 
     private static FileReader reader(String fileName) {
