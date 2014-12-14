@@ -44,7 +44,7 @@
 		<dependency>
 			<groupId>xyz.luan</groupId>
 			<artifactId>reflection-utils</artifactId>
-			<version>0.2.2-SNAPSHOT</version>
+			<version>0.2.2</version>
 		</dependency>
 	</dependencies>
 </project>
