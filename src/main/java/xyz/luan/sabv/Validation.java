@@ -17,7 +17,7 @@ public @interface Validation {
 
     public enum DefaultTypes {
         ARRAY(byte[].class, short[].class, int[].class, long[].class, float[].class, double[].class, Object[].class, Iterable.class),
-        NUMBER(int.class, Integer.class, short.class, Short.class, byte.class, Byte.class, float.class, Float.class, double.class, Double.class);
+        NUMBER(byte.class, Byte.class, short.class, Short.class, int.class, Integer.class, long.class, Long.class, float.class, Float.class, double.class, Double.class);
 
         private Class<?>[] classes;
 

@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import xyz.luan.sabv.ClassOutlinerNames;
 
@@ -17,13 +18,21 @@ public final class ToJson {
 
     public static String annotationToJson(Annotation a) {
         Class<?> annotationType = getAnnotationType(a);
-        String methods = Arrays.stream(annotationType.getDeclaredMethods()).map(m -> getMethodJson(a, m)).collect(Collectors.joining(", "));
-        return "\"@" + annotationType.getCanonicalName() + "\" : { " + methods + "}";
+        Stream<String> methods = Arrays.stream(annotationType.getDeclaredMethods()).map(m -> getMethodJson(a, m));
+        return toMapElement("@" + annotationType.getCanonicalName(), streamToMap(methods));
+    }
+
+    public static String toMapElement(ClassOutlinerNames keyName, String valueJson) {
+        return toMapElement(keyName.val(), valueJson);
+    }
+
+    public static String toMapElement(String keyString, String valueJson) {
+        return "\"" + keyString + "\": " + valueJson;
     }
 
     private static String getMethodJson(Annotation a, Method m) {
         try {
-            return "\"" + m.getName() + "\" : " + annotationMethodToJson(m.invoke(a));
+            return toMapElement(m.getName(), annotationMethodToJson(m.invoke(a)));
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
@@ -38,8 +47,8 @@ public final class ToJson {
     }
 
     private static String annotationMethodToJson(Object value) {
-        final List<Class<?>> NUMBERS = Arrays.asList(byte.class, short.class, int.class, long.class, float.class, double.class, Byte.class,
-                Short.class, Integer.class, Long.class, Float.class, Double.class);
+        final List<Class<?>> NUMBERS = Arrays.asList(byte.class, short.class, int.class, long.class, float.class, double.class, Byte.class, Short.class,
+                Integer.class, Long.class, Float.class, Double.class);
         if (NUMBERS.contains(value.getClass())) {
             return value.toString();
         }
@@ -74,9 +83,12 @@ public final class ToJson {
         return '"' + str + '"';
     }
 
-    public static String typeToJson(Class<?> type) {
-        String key = ClassOutlinerNames.FIELD_TYPE.val();
-        String value = type.isArray() ? ClassOutlinerNames.ARRAY_TYPE.val() : ToJson.strToJson(type.getCanonicalName());
-        return key + ": " + value;
+    public static String streamToMap(Stream<String> stream) {
+        return "{" + stream.collect(Collectors.joining(",")) + "}";
     }
+
+    public static String typeToJson(Class<?> type) {
+        String value = type.isArray() ? strToJson(ClassOutlinerNames.ARRAY_TYPE.val()) : ToJson.strToJson(type.getCanonicalName());
+		return toMapElement(ClassOutlinerNames.FIELD_TYPE, value);
+	}
 }

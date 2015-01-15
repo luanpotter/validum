@@ -5,12 +5,12 @@ import xyz.luan.sabv.validations.EnumOnly;
 
 public class AdvancedPerson extends Person {
 
-    @EnumOnly({"strength", "flight", "telekinesis"})
+	@EnumOnly({ "strength", "flight", "telekinesis" })
     private Power power;
     
     @EnumExcept("kriptonite")
     private Weakness weakness;
-    
+
     public AdvancedPerson(String name, int age, Address address, Power power, Weakness weakness) {
         super(name, age, address);
         this.power = power;

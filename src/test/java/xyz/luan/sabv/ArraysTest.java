@@ -66,7 +66,6 @@ public class ArraysTest extends BaseTestCase {
             ":calculationMatrix:[3]:Array.lengthDiffers{4}",
             ":calculationMatrix:[3]:[1]:Numeric.greaterThan{4.0}",
             ":calculationMatrix:[3]:[4]:Numeric.smallerThan{3.5}"
-
         });
     }
 

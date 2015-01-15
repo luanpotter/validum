@@ -11,47 +11,41 @@ import xyz.luan.sabv.validations.Required;
 
 public class God {
 
-    private String name;
+	private String name;
 
-    @Required
-    @Array(minLength = 2)
-    private Power @Required [] powers;
+	private @Required Power @Array(minLength = 2) @Required [] powers;
 
-    @Required
-    @Array(maxLength = 2)
-    private List<@Required Weakness> weaknesses;
-    
-    @Required
-    @Array.Fixed(3)
-    private float @Array.Fixed(4) [] @Min(3.5) @Max(4) [] calculationMatrix;
+	private @Required @Array(maxLength = 2) List<@Required Weakness> weaknesses;
 
-    private @Array(minLength = 1) Map<@PalindromeString @Required String, @Required @Array(minLength = 1) List<@Required @Array.Fixed(3) float @Array.Fixed(4) [] @Min(3.5) @Max(4) []>> secondaryMatrixesByName;
+	private @Min(3.5) @Max(4) float @Required @Array.Fixed(3) [] @Array.Fixed(4) [] calculationMatrix;
 
-    public God(String name, Power[] powers, List<Weakness> weaknesses, float[][] calculationMatrix, Map<String, List<float[][]>> secondaryMatrixesByName) {
-        this.name = name;
-        this.powers = powers;
-        this.weaknesses = weaknesses;
-        this.calculationMatrix = calculationMatrix;
-        this.secondaryMatrixesByName = secondaryMatrixesByName;
-    }
+	private @Array(minLength = 1) Map<@PalindromeString @Required String, @Required @Array(minLength = 1) List<@Min(3.5) @Max(4) float @Array.Fixed(3) [] @Required @Array.Fixed(4) []>> secondaryMatrixesByName;
 
-    public String getName() {
-        return name;
-    }
+	public God(String name, Power[] powers, List<Weakness> weaknesses, float[][] calculationMatrix, Map<String, List<float[][]>> secondaryMatrixesByName) {
+		this.name = name;
+		this.powers = powers;
+		this.weaknesses = weaknesses;
+		this.calculationMatrix = calculationMatrix;
+		this.secondaryMatrixesByName = secondaryMatrixesByName;
+	}
 
-    public Power[] getPowers() {
-        return powers;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public List<Weakness> getWeaknesses() {
-        return weaknesses;
-    }
-    
-    public float[][] getCalculationMatrix() {
-        return calculationMatrix;
-    }
-    
-    public Map<String, List<float[][]>> getSecondaryMatrixesByName() {
-        return secondaryMatrixesByName;
-    }
+	public Power[] getPowers() {
+		return powers;
+	}
+
+	public List<Weakness> getWeaknesses() {
+		return weaknesses;
+	}
+
+	public float[][] getCalculationMatrix() {
+		return calculationMatrix;
+	}
+
+	public Map<String, List<float[][]>> getSecondaryMatrixesByName() {
+		return secondaryMatrixesByName;
+	}
 }

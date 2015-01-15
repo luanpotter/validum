@@ -1,23 +1,16 @@
 package xyz.luan.sabv;
 
-import static java.util.Arrays.stream;
-
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedArrayType;
-import java.lang.reflect.AnnotatedParameterizedType;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import xyz.luan.reflection.ReflectionUtils;
+import xyz.luan.reflection.tclass.TypedClass;
 import xyz.luan.sabv.validations.EnumExcept;
 import xyz.luan.sabv.validations.EnumOnly;
 import xyz.luan.sabv.validations.Numeric;
@@ -25,201 +18,121 @@ import xyz.luan.sabv.validations.Required;
 
 public final class ValidationHelper {
 
-    public static final Map<Class<? extends Annotation>, Validator<?, ? extends Annotation>> VALIDATORS = new HashMap<>();
-    static {
-        VALIDATORS.put(Required.class, new Required.Validator());
-        VALIDATORS.put(Numeric.class, new Numeric.Validator());
-        VALIDATORS.put(Numeric.Natural.class, new Numeric.Natural.Validator());
-        VALIDATORS.put(Numeric.Min.class, new Numeric.Min.Validator());
-        VALIDATORS.put(Numeric.Max.class, new Numeric.Max.Validator());
-        VALIDATORS.put(EnumOnly.class, new EnumOnly.Validator());
-        VALIDATORS.put(EnumExcept.class, new EnumExcept.Validator());
-        VALIDATORS.put(xyz.luan.sabv.validations.Array.class, new xyz.luan.sabv.validations.Array.Validator());
-        VALIDATORS.put(xyz.luan.sabv.validations.Array.Fixed.class, new xyz.luan.sabv.validations.Array.Fixed.Validator());
-    }
-    
-    private ValidationHelper() {
-        throw new RuntimeException("Should not be instancited");
-    }
+	public static final Map<Class<? extends Annotation>, Validator<?, ? extends Annotation>> VALIDATORS = new HashMap<>();
+	static {
+		VALIDATORS.put(Required.class, new Required.Validator());
+		VALIDATORS.put(Numeric.class, new Numeric.Validator());
+		VALIDATORS.put(Numeric.Natural.class, new Numeric.Natural.Validator());
+		VALIDATORS.put(Numeric.Min.class, new Numeric.Min.Validator());
+		VALIDATORS.put(Numeric.Max.class, new Numeric.Max.Validator());
+		VALIDATORS.put(EnumOnly.class, new EnumOnly.Validator());
+		VALIDATORS.put(EnumExcept.class, new EnumExcept.Validator());
+		VALIDATORS.put(xyz.luan.sabv.validations.Array.class, new xyz.luan.sabv.validations.Array.Validator());
+		VALIDATORS.put(xyz.luan.sabv.validations.Array.Fixed.class, new xyz.luan.sabv.validations.Array.Fixed.Validator());
+	}
 
-    public static boolean isValidationAnnotation(Annotation ann) {
-        return ann.annotationType().getAnnotation(Validation.class) != null;
-    }
+	private ValidationHelper() {
+		throw new RuntimeException("Should not be instancited");
+	}
 
-    public static List<Annotation> getValidationAnnotations(Class<?> clazz) {
-        return getValidationAnnotations(clazz.getAnnotations());
-    }
+	public static boolean isValidationAnnotation(Annotation ann) {
+		return ann.annotationType().getAnnotation(Validation.class) != null;
+	}
 
-    private static List<Annotation> getValidationAnnotations(Annotation[] annotations) {
-        List<Annotation> validations = new ArrayList<>();
-        for (Annotation ann : annotations) {
-            if (isValidationAnnotation(ann)) {
-                validations.add(ann);
-            }
-        }
-        return validations;
-    }
+	public static List<Annotation> getValidationAnnotations(Class<?> clazz) {
+		return getValidationAnnotations(clazz.getAnnotations());
+	}
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static List<String> validateValueWith(Object value, Annotation annotation) {
-        if (!isValidAnnotationType(value, annotation)) {
-            throw new ValidationException("Validation annotation " + annotation + " used on unsupported type " + value.getClass() + ". Check documentation for a list of suported types.");
-        }
+	private static List<Annotation> getValidationAnnotations(Annotation[] annotations) {
+		return Arrays.stream(annotations).filter((ann) -> isValidationAnnotation(ann)).collect(Collectors.toList());
+	}
 
-        Validator validator = VALIDATORS.get(annotation.annotationType());
-        if (validator == null) {
-            throw new ValidationException("No validator added to this annotation! The annotation " + annotation + " does not have a validator.");
-        }
+	private static List<String> validateValueWith(Object value, Annotation annotation) {
+		if (!isValidAnnotationType(value, annotation)) {
+			final String message = "Validation annotation %s used on unsupported type %s. Check documentation for a list of suported types.";
+			throw new ValidationException(String.format(message, annotation, value.getClass()));
+		}
 
-        return validator.validate(value, annotation);
-    }
+		Validator validator = VALIDATORS.get(annotation.annotationType());
+		if (validator == null) {
+			throw new ValidationException("No validator added to this annotation! The annotation " + annotation + " does not have a validator.");
+		}
 
-    private static boolean isValidAnnotationType(Object value, Annotation annotation) {
-        if (value == null) {
-            return true;
-        }
-        
-        List<Class<?>> validClasses = Validation.DefaultTypes.getClasses(annotation.annotationType().getAnnotation(Validation.class));
-        for (Class<?> clazz : validClasses) {
-            if (clazz.isAssignableFrom(value.getClass())) {
-                return true;
-            }
-        }
-        return false;
-    }
+		return validator.validate(value, annotation);
+	}
 
-    public static List<String> validate(Object obj) {
-        return validate(":", obj, getValidationAnnotations(obj.getClass()));
-    }
+	private static boolean isValidAnnotationType(Object value, Annotation annotation) {
+		if (value == null) {
+			return true;
+		}
 
-    public static List<String> validate(String errorPrefix, Object obj, List<Annotation> globalValidations) {
-        List<String> errors = new ArrayList<>();
+		List<Class<?>> validClasses = Validation.DefaultTypes.getClasses(annotation.annotationType().getAnnotation(Validation.class));
+		for (Class<?> clazz : validClasses) {
+			if (clazz.isAssignableFrom(value.getClass())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-        if (obj != null) {
-            List<Field> fields = ReflectionUtils.getFieldsRecursivelyExceptJavaClasses(obj.getClass());
-            for (Field f : fields) {
-                List<Annotation> globalForField = getAllGlobalValidationsForType(f);
-                String fieldPrefix = errorPrefix + f.getName() + ":";
-                Object fieldValue = getFieldValue(obj, f);
-                errors.addAll(validate(fieldPrefix, fieldValue, globalForField));
+	public static List<String> validate(Object obj) {
+		return validate(new ArrayList<>(), ":", obj, TypedClass.create(obj.getClass()), getValidationAnnotations(obj.getClass()));
+	}
 
-                if (fieldValue != null) {
-                    errors.addAll(getErrorsFromElements(fieldPrefix, fieldValue, f.getAnnotatedType()));
-                }
-            }
-        }
+	public static List<String> validate(List<String> errors, String errorPrefix, Object obj, TypedClass<?> clazz, List<Annotation> globalValidations) {
+		if (obj != null) {
+			List<Field> fields = ReflectionUtils.getFieldsRecursivelyExceptJavaClasses(obj.getClass());
+			for (Field f : fields) {
+				TypedClass<?> c = TypedClass.create(f);
+				String fieldPrefix = errorPrefix + f.getName() + ":";
+				Object fieldValue = getFieldValue(obj, f);
 
-        for (Annotation ann : globalValidations) {
-            if (errors.isEmpty()) {
-                List<String> currentErrors = validateValueWith(obj, ann);
-                for (String error : currentErrors) {
-                    errors.add(errorPrefix + error);
-                }
-            }
-        }
+				validate(errors, fieldPrefix, fieldValue, c, getGlobals(c));
+			}
+		}
 
-        return errors;
-    }
+		parseChildren(errors, errorPrefix, clazz, obj);
 
-    //TODO refactor, use brand new AnnotationsHelper
-    private static List<String> getErrorsFromElements(String fieldPrefix, Object currentLevelFieldValue, AnnotatedType at) {
-        List<String> errors = new ArrayList<>();
-        if (currentLevelFieldValue.getClass().isArray()) {
-            AnnotatedArrayType annotatedType = (AnnotatedArrayType) at;
-            List<Annotation> globalsForElement = getValidationAnnotationsFrom(annotatedType.getAnnotations());
+		for (Annotation ann : globalValidations) {
+			validateValueWith(obj, ann).forEach((error) -> errors.add(errorPrefix + error));
+		}
 
-            for (int i = 0; i < Array.getLength(currentLevelFieldValue); i++) {
-                Object element = Array.get(currentLevelFieldValue, i);
-                String elementPrefix = fieldPrefix + "[" + i + "]:";
-                errors.addAll(validate(elementPrefix, element, globalsForElement));
-                if (element != null) {
-                    errors.addAll(getErrorsFromElements(elementPrefix, element, annotatedType.getAnnotatedGenericComponentType()));
-                }
-            }
-        } else if (List.class.isAssignableFrom(currentLevelFieldValue.getClass())) {
-            AnnotatedParameterizedType annotatedType = (AnnotatedParameterizedType) at;
+		return errors;
+	}
 
-            assert annotatedType.getAnnotatedActualTypeArguments().length == 1;
-            AnnotatedType elementAnnotedType = annotatedType.getAnnotatedActualTypeArguments()[0];
-            List<Annotation> globalsForElement = getValidationAnnotationsFrom(elementAnnotedType.getAnnotations());
+	private static void parseChildren(List<String> errors, String errorPrefix, TypedClass<?> c, Object value) {
+		if (value != null) {
+			if (c.isList()) {
+				// TODO option to use index or stringfy here
+				c.asList().forEach(value,
+						(i, el) -> validate(errors, errorPrefix + "[" + i + "]:", el, c.asList().getComponent(), getGlobals(c.asList().getComponent())));
+			} else if (c.isMap()) {
+				// TODO customize stringfy
+				c.asMap().forEachKey(value,
+						(k) -> validate(errors, errorPrefix + "[" + stringfy(k) + "]:", k, c.asMap().getKey(), getGlobals(c.asMap().getKey())));
+				c.asMap().forEachKey(value,
+						(v) -> validate(errors, errorPrefix + "[" + stringfy(v) + "]:", v, c.asMap().getValue(), getGlobals(c.asMap().getValue())));
+			}
+		}
+	}
 
-            ListIterator<?> it = List.class.cast(currentLevelFieldValue).listIterator();
-            int count = 0;
-            while (it.hasNext()) {
-                Object element = it.next();
-                String elementPrefix = fieldPrefix + "[" + count++ + "]:";
+	private static List<Annotation> getGlobals(TypedClass<?> c) {
+		List<Annotation> globalForField;
+		globalForField = getValidationAnnotations(c.asClass());
+		globalForField.addAll(c.getAnnotations());
+		return globalForField;
+	}
 
-                errors.addAll(validate(elementPrefix, element, globalsForElement));
+	private static String stringfy(Object element) {
+		return element == null ? null : element.toString().replace("[", "\\[").replace("]", "\\]");
+	}
 
-                assert annotatedType.getAnnotatedActualTypeArguments().length == 1;
-                if (element != null) {
-                    errors.addAll(getErrorsFromElements(elementPrefix, element, annotatedType.getAnnotatedActualTypeArguments()[0]));
-                }
-            }
-        } else if (Collection.class.isAssignableFrom(currentLevelFieldValue.getClass())) {
-            AnnotatedParameterizedType annotatedType = (AnnotatedParameterizedType) at;
-
-            assert annotatedType.getAnnotatedActualTypeArguments().length == 1;
-            AnnotatedType elementAnnotedType = annotatedType.getAnnotatedActualTypeArguments()[0];
-            List<Annotation> globalsForElement = getValidationAnnotationsFrom(elementAnnotedType.getAnnotations());
-
-            Iterable<?> it = Collection.class.cast(currentLevelFieldValue);
-            it.forEach(element -> {
-                String elementPrefix = fieldPrefix + "[" + stringfy(element) + "]:";
-                errors.addAll(validate(elementPrefix, element, globalsForElement));
-                if (element != null) {
-                    errors.addAll(getErrorsFromElements(elementPrefix, element, elementAnnotedType));
-                }
-            });
-        } else if (Map.class.isAssignableFrom(currentLevelFieldValue.getClass())) {
-            AnnotatedParameterizedType annotatedType = (AnnotatedParameterizedType) at;
-
-            assert annotatedType.getAnnotatedActualTypeArguments().length == 2;
-            AnnotatedType[] elementAnnotedTypes = annotatedType.getAnnotatedActualTypeArguments();
-
-            List<Annotation> globalsForElement0 = getValidationAnnotationsFrom(elementAnnotedTypes[0].getAnnotations());
-            List<Annotation> globalsForElement1 = getValidationAnnotationsFrom(elementAnnotedTypes[1].getAnnotations());
-
-            Map<?, ?> map = Map.class.cast(currentLevelFieldValue);
-            Set<?> keySet = map.keySet();
-            for (Object element : keySet) {
-                String elementPrefix = fieldPrefix + "[" + stringfy(element) + "]:";
-                errors.addAll(validate(elementPrefix, element, globalsForElement0));
-                if (element != null) {
-                    errors.addAll(getErrorsFromElements(elementPrefix, element, elementAnnotedTypes[0]));
-                }
-
-                errors.addAll(validate(elementPrefix, map.get(element), globalsForElement1));
-                if (map.get(element) != null) {
-                    errors.addAll(getErrorsFromElements(elementPrefix, map.get(element), elementAnnotedTypes[1]));
-                }
-            };
-        }
-
-        return errors;
-    }
-
-    private static String stringfy(Object element) {
-        return element.toString().replace("[", "\\[").replace("]", "\\]");
-    }
-
-    private static List<Annotation> getValidationAnnotationsFrom(
-            Annotation[] allList) {
-        return stream(allList).filter(ValidationHelper::isValidationAnnotation).collect(Collectors.toList());
-    }
-
-    private static List<Annotation> getAllGlobalValidationsForType(Field f) {
-        List<Annotation> globalForField = getValidationAnnotations(f.getType());
-        globalForField.addAll(getValidationAnnotations(f.getAnnotations()));
-        return globalForField;
-    }
-
-    private static Object getFieldValue(Object obj, Field f) {
-        f.setAccessible(true);
-        try {
-            return f.get(obj);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException("Totally unexpected expection!", e);
-        }
-    }
+	private static Object getFieldValue(Object obj, Field f) {
+		f.setAccessible(true);
+		try {
+			return f.get(obj);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			throw new RuntimeException("Totally unexpected expection!", e);
+		}
+	}
 }

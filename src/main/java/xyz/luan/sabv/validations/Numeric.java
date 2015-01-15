@@ -13,7 +13,7 @@ import xyz.luan.sabv.Validation;
 import xyz.luan.sabv.Validation.DefaultTypes;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.TYPE_USE })
+@Target(ElementType.TYPE_USE)
 @Validation(defaultType = { DefaultTypes.NUMBER })
 public @interface Numeric {
 
