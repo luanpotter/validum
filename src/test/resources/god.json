@@ -33,12 +33,12 @@
         "[t]" : "[a]",
         "@xyz.luan.sabv.validations.Required": {},
         "@xyz.luan.sabv.validations.Array.Fixed": {
-            "value": 4
+            "value": 3
         },
         "[e]": {
             "[t]" : "[a]",
             "@xyz.luan.sabv.validations.Array.Fixed": {
-                "value": 3
+                "value": 4
             },
             "[e]": {
                 "[t]" : "float",
@@ -73,15 +73,15 @@
             },
             "[e]": {
                 "[t]" : "[a]",
+                "@xyz.luan.sabv.validations.Required": {},
                 "@xyz.luan.sabv.validations.Array.Fixed": {
-                    "value": 4
+                    "value": 3
                 },
                 "[e]": {
                     "[t]" : "[a]",
                     "@xyz.luan.sabv.validations.Array.Fixed": {
-                        "value": 3
+                        "value": 4
                     },
-                    "@xyz.luan.sabv.validations.Required": {},
                     "[e]": {
                         "[t]" : "float",
                         "@xyz.luan.sabv.validations.Numeric.Min": {

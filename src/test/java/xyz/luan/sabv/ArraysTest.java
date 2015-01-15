@@ -143,10 +143,9 @@ public class ArraysTest extends BaseTestCase {
         List<String> errors = ValidationHelper.validate(god);
         assertListEquals(errors, new String[] {
             ":secondaryMatrixesByName:[aBA]:xyz.luan.sabv.customs.PalindromeString.notPalindrome",
-            ":secondaryMatrixesByName:[aBA]:[0]:Array.lengthDiffers{4}",
-            ":secondaryMatrixesByName:[aBA]:[1]:Array.lengthDiffers{4}",
             ":secondaryMatrixesByName:[AABBA]:xyz.luan.sabv.customs.PalindromeString.notPalindrome",
             ":secondaryMatrixesByName:[AABBA]:Array.lengthBelow{1}",
+            ":secondaryMatrixesByName:[AABBAA]:[0]:Array.lengthDiffers{3}",
             ":secondaryMatrixesByName:[AABBAA]:[0]:[0]:[0]:Numeric.smallerThan{3.5}",
             ":secondaryMatrixesByName:[AABBAA]:[0]:[1]:Array.lengthDiffers{4}",
             ":secondaryMatrixesByName:[AABBAA]:[0]:[1]:[0]:Numeric.smallerThan{3.5}",
@@ -156,8 +155,7 @@ public class ArraysTest extends BaseTestCase {
             ":secondaryMatrixesByName:[AABBAA]:[0]:[2]:[3]:Numeric.smallerThan{3.5}",
             ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:Array.lengthDiffers{4}",
             ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:[1]:Numeric.greaterThan{4.0}",
-            ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:[4]:Numeric.smallerThan{3.5}",
-            ":secondaryMatrixesByName:[AABBAA]:[1]:Array.lengthDiffers{4}"
+            ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:[4]:Numeric.smallerThan{3.5}"
         });
     }
 }

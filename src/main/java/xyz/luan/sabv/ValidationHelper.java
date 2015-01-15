@@ -81,17 +81,9 @@ public final class ValidationHelper {
 
 	public static List<String> validate(List<String> errors, String errorPrefix, Object obj, TypedClass<?> clazz, List<Annotation> globalValidations) {
 		if (obj != null) {
-			List<Field> fields = ReflectionUtils.getFieldsRecursivelyExceptJavaClasses(obj.getClass());
-			for (Field f : fields) {
-				TypedClass<?> c = TypedClass.create(f);
-				String fieldPrefix = errorPrefix + f.getName() + ":";
-				Object fieldValue = getFieldValue(obj, f);
-
-				validate(errors, fieldPrefix, fieldValue, c, getGlobals(c));
-			}
+			parseFields(errors, errorPrefix, obj);
+			parseChildren(errors, errorPrefix, clazz, obj);
 		}
-
-		parseChildren(errors, errorPrefix, clazz, obj);
 
 		for (Annotation ann : globalValidations) {
 			validateValueWith(obj, ann).forEach((error) -> errors.add(errorPrefix + error));
@@ -100,19 +92,29 @@ public final class ValidationHelper {
 		return errors;
 	}
 
+	private static void parseFields(List<String> errors, String errorPrefix, Object obj) {
+		List<Field> fields = ReflectionUtils.getFieldsRecursivelyExceptJavaClasses(obj.getClass());
+		for (Field f : fields) {
+			TypedClass<?> c = TypedClass.create(f);
+			String fieldPrefix = errorPrefix + f.getName() + ":";
+			Object fieldValue = getFieldValue(obj, f);
+
+			validate(errors, fieldPrefix, fieldValue, c, getGlobals(c));
+		}
+	}
+
 	private static void parseChildren(List<String> errors, String errorPrefix, TypedClass<?> c, Object value) {
-		if (value != null) {
-			if (c.isList()) {
-				// TODO option to use index or stringfy here
-				c.asList().forEach(value,
-						(i, el) -> validate(errors, errorPrefix + "[" + i + "]:", el, c.asList().getComponent(), getGlobals(c.asList().getComponent())));
-			} else if (c.isMap()) {
-				// TODO customize stringfy
-				c.asMap().forEachKey(value,
-						(k) -> validate(errors, errorPrefix + "[" + stringfy(k) + "]:", k, c.asMap().getKey(), getGlobals(c.asMap().getKey())));
-				c.asMap().forEachKey(value,
-						(v) -> validate(errors, errorPrefix + "[" + stringfy(v) + "]:", v, c.asMap().getValue(), getGlobals(c.asMap().getValue())));
-			}
+		if (c.isList()) {
+			// TODO option to use index or stringfy here
+			c.asList().forEach(value,
+					(i, el) -> validate(errors, errorPrefix + "[" + i + "]:", el, c.asList().getComponent(), getGlobals(c.asList().getComponent())));
+		} else if (c.isMap()) {
+			// TODO customize stringfy
+			TypedClass<?> keyType = c.asMap().getKey(), valueType = c.asMap().getValue();
+			c.asMap().forEach(value, (k, v) -> {
+				validate(errors, errorPrefix + "[" + stringfy(k) + "]:", k, keyType, getGlobals(keyType));
+				validate(errors, errorPrefix + "[" + stringfy(k) + "]:", v, valueType, getGlobals(valueType));
+			});
 		}
 	}
 

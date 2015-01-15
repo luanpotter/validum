@@ -19,7 +19,7 @@ public class God {
 
 	private @Min(3.5) @Max(4) float @Required @Array.Fixed(3) [] @Array.Fixed(4) [] calculationMatrix;
 
-	private @Array(minLength = 1) Map<@PalindromeString @Required String, @Required @Array(minLength = 1) List<@Min(3.5) @Max(4) float @Array.Fixed(3) [] @Required @Array.Fixed(4) []>> secondaryMatrixesByName;
+	private @Array(minLength = 1) Map<@PalindromeString @Required String, @Required @Array(minLength = 1) List<@Min(3.5) @Max(4) float @Required @Array.Fixed(3) [] @Array.Fixed(4) []>> secondaryMatrixesByName;
 
 	public God(String name, Power[] powers, List<Weakness> weaknesses, float[][] calculationMatrix, Map<String, List<float[][]>> secondaryMatrixesByName) {
 		this.name = name;
