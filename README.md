@@ -26,26 +26,22 @@ Examples
 ```java
 public class Person {
 
-    @Required
-    private String name;
+    private @Required String name;
 
-    @Natural
-    private int age;
+    private @Natural int age;
 }
 ```
 * Validate arrays and lists, using custom annotation @Super
 ```java
 public class SuperHero {
 
-    @Required @Array(minLength = 2)
-    private List<@Required @Super Power> powers;
+    private @Required @Array(minLength = 2) List<@Required @Super Power> powers;
 
-    @Array.Fixed(3)
-    private char @Array.Fixed(3) [] @CharOnly({'x', 'o'}) [] currentTickTackToeBoard;
+    private @CharOnly({'x', 'o'}) char @Array.Fixed(3) [] @Array.Fixed(3) [] currentTickTackToeBoard;
 }
 ```
 
-Current Implemented Annotations
+Currently Implemented Annotations
 ---
 
 Custom annotations can be easily created, but some pre-defined default ones might come in hand. Currently, they are:
