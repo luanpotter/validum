@@ -119,9 +119,8 @@ public final class ValidationHelper {
 	}
 
 	private static List<Annotation> getGlobals(TypedClass<?> c) {
-		List<Annotation> globalForField;
-		globalForField = getValidationAnnotations(c.asClass());
-		globalForField.addAll(c.getAnnotations());
+		final List<Annotation> globalForField = getValidationAnnotations(c.asClass());
+		c.getAnnotations().stream().filter((a) -> isValidationAnnotation(a)).forEach((a -> globalForField.add(a)));
 		return globalForField;
 	}
 
