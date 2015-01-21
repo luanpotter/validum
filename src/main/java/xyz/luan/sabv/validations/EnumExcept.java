@@ -17,7 +17,7 @@ public @interface EnumExcept {
 
     String[] value() default {};
     
-    public static class Validator implements xyz.luan.sabv.Validator<Enum<?>, EnumExcept> {
+    public static class Validator implements xyz.luan.sabv.AnnotationValidator<Enum<?>, EnumExcept> {
 
         @Override
         public List<String> validate(Enum<?> enumeration, EnumExcept annotation) {

@@ -17,7 +17,7 @@ public @interface EnumOnly {
 
     String[] value() default {};
 
-    public static class Validator implements xyz.luan.sabv.Validator<Enum<?>, EnumOnly> {
+    public static class Validator implements xyz.luan.sabv.AnnotationValidator<Enum<?>, EnumOnly> {
 
         @Override
         public List<String> validate(Enum<?> enumeration, EnumOnly annotation) {

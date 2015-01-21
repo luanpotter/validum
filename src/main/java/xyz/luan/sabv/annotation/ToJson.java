@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import xyz.luan.sabv.ClassOutlinerNames;
+import xyz.luan.sabv.outliner.ClassOutlinerNames;
 
 public final class ToJson {
 

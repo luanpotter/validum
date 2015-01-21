@@ -23,7 +23,7 @@ public @interface Array {
 
 	int maxLength() default -1;
 
-	public static class Validator implements xyz.luan.sabv.Validator<Object, Array> {
+	public static class Validator implements xyz.luan.sabv.AnnotationValidator<Object, Array> {
 
 		@Override
 		public List<String> validate(Object array, Array annotation) {
@@ -76,7 +76,7 @@ public @interface Array {
 	public @interface Fixed {
 		int value();
 
-		public static class Validator implements xyz.luan.sabv.Validator<Object, Fixed> {
+		public static class Validator implements xyz.luan.sabv.AnnotationValidator<Object, Fixed> {
 
 			@Override
 			public List<String> validate(Object array, Fixed annotation) {

@@ -1,4 +1,4 @@
-package xyz.luan.sabv;
+package xyz.luan.sabv.outliner;
 
 public enum ClassOutlinerNames {
 

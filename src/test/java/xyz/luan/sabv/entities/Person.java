@@ -13,7 +13,7 @@ public class Person {
     @Numeric(min = 0, minCap = Cap.INCLUSIVE, maxCap = Cap.NONE, type = Type.INTEGER)
     private int age;
 
-    private Address address;
+    protected Address address;
     
     public Person(String name, int age, Address address) {
         this.name = name;

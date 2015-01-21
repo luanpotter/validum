@@ -15,7 +15,7 @@ import xyz.luan.sabv.Validation;
 @Validation(Object.class)
 public @interface Required {
     
-    public static class Validator implements xyz.luan.sabv.Validator<Object, Required> {
+    public static class Validator implements xyz.luan.sabv.AnnotationValidator<Object, Required> {
 
         @Override
         public List<String> validate(Object object, Required annotation) {

@@ -16,7 +16,7 @@ import xyz.luan.sabv.entities.Address;
 @Validation(Address.class)
 public @interface ValidAddress {
 
-    public static class Validator implements xyz.luan.sabv.Validator<Address, ValidAddress> {
+    public static class Validator implements xyz.luan.sabv.AnnotationValidator<Address, ValidAddress> {
 
         @Override
         public List<String> validate(Address address, ValidAddress annotation) {

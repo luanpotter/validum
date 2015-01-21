@@ -18,7 +18,7 @@ import xyz.luan.sabv.validations.Required;
 
 public final class ValidationHelper {
 
-	public static final Map<Class<? extends Annotation>, Validator<?, ? extends Annotation>> VALIDATORS = new HashMap<>();
+	public static final Map<Class<? extends Annotation>, AnnotationValidator<?, ? extends Annotation>> VALIDATORS = new HashMap<>();
 	static {
 		VALIDATORS.put(Required.class, new Required.Validator());
 		VALIDATORS.put(Numeric.class, new Numeric.Validator());
@@ -53,7 +53,7 @@ public final class ValidationHelper {
 			throw new ValidationException(String.format(message, annotation, value.getClass()));
 		}
 
-		Validator validator = VALIDATORS.get(annotation.annotationType());
+		AnnotationValidator validator = VALIDATORS.get(annotation.annotationType());
 		if (validator == null) {
 			throw new ValidationException("No validator added to this annotation! The annotation " + annotation + " does not have a validator.");
 		}

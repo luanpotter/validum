@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import xyz.luan.sabv.StreamUtil;
+import xyz.luan.sabv.util.StreamUtil;
 
 public class AnnotationLevel extends ArrayList<AnnotationElement> {
     private static final long serialVersionUID = 8148887794656566908L;

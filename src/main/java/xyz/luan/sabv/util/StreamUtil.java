@@ -1,4 +1,4 @@
-package xyz.luan.sabv;
+package xyz.luan.sabv.util;
 
 import java.util.Arrays;
 import java.util.stream.Stream;

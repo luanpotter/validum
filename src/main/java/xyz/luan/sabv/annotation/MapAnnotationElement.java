@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import xyz.luan.reflection.ReflectionUtils;
-import xyz.luan.sabv.ClassOutlinerNames;
+import xyz.luan.sabv.outliner.ClassOutlinerNames;
 
 public class MapAnnotationElement implements AnnotationElement {
 

@@ -9,6 +9,7 @@ import xyz.luan.sabv.entities.AdvancedPerson;
 import xyz.luan.sabv.entities.God;
 import xyz.luan.sabv.entities.Person;
 import xyz.luan.sabv.js.JsSetup;
+import xyz.luan.sabv.outliner.ClassOutliner;
 
 public class ClassOutlinerTest extends BaseTestCase {
 

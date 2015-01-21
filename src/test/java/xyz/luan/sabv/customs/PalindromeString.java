@@ -15,7 +15,7 @@ import xyz.luan.sabv.Validation;
 @Validation(String.class)
 public @interface PalindromeString {
 
-    public static class Validator implements xyz.luan.sabv.Validator<String, PalindromeString> {
+    public static class Validator implements xyz.luan.sabv.AnnotationValidator<String, PalindromeString> {
 
         @Override
         public List<String> validate(String string, PalindromeString annotation) {

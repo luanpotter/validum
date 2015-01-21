@@ -33,7 +33,7 @@ public @interface Numeric {
         INCLUSIVE, EXCLUSIVE, NONE;
     }
     
-    public static class Validator implements xyz.luan.sabv.Validator<Number, Numeric> {
+    public static class Validator implements xyz.luan.sabv.AnnotationValidator<Number, Numeric> {
         
         @Override
         public List<String> validate(Number number, Numeric annotation) {
@@ -80,7 +80,7 @@ public @interface Numeric {
     @Validation(defaultType = { DefaultTypes.NUMBER })
     public @interface Natural {
         
-        public static class Validator implements xyz.luan.sabv.Validator<Number, Natural> {
+        public static class Validator implements xyz.luan.sabv.AnnotationValidator<Number, Natural> {
             
             @Override
             public List<String> validate(Number number, Natural annotation) {
@@ -127,7 +127,7 @@ public @interface Numeric {
         double value();
         Cap cap() default Cap.INCLUSIVE;
         
-        public static class Validator implements xyz.luan.sabv.Validator<Number, Min> {
+        public static class Validator implements xyz.luan.sabv.AnnotationValidator<Number, Min> {
         
             @Override
             public List<String> validate(Number number, Min annotation) {
@@ -174,7 +174,7 @@ public @interface Numeric {
         double value();
         Cap cap() default Cap.INCLUSIVE;
         
-        public static class Validator implements xyz.luan.sabv.Validator<Number, Max> {
+        public static class Validator implements xyz.luan.sabv.AnnotationValidator<Number, Max> {
             
             @Override
             public List<String> validate(Number number, Max annotation) {
