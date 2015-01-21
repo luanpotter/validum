@@ -1,6 +1,6 @@
-var sabv = sabv || {};
-sabv.validators = (function() {
-	var PACKAGE = 'xyz.luan.sabv.validations.';
+var validum = validum || {};
+validum.validators = (function() {
+	var PACKAGE = 'xyz.luan.validum.validations.';
 	var map = {};
 
 	map[PACKAGE + '@Required'] = function(obj, _ann) {

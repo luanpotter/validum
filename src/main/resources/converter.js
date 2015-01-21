@@ -1,5 +1,5 @@
-var sabv = sabv || {};
-sabv.convert = (function() {
+var validum = validum || {};
+validum.convert = (function() {
 
 	var ConverterException = function(message) {
 		this.name = 'ConverterException';
