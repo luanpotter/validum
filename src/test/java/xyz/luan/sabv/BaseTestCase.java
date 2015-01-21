@@ -7,15 +7,11 @@ import xyz.luan.sabv.customs.ValidAddress;
 
 public abstract class BaseTestCase {
 
-    @Before
-    public void setup() {
-        ValidationHelper.VALIDATORS.put(ValidAddress.class, new ValidAddress.Validator());
-    }
-    
-    @After
-    public void teardown() {
-        ValidationHelper.VALIDATORS.remove(ValidAddress.class);
-    }
+	protected Validator validator;
 
+	@Before
+	public void setup() {
+		validator = Validator.withDefaults().addValidation(ValidAddress.class, new ValidAddress.Validator());
+	}
 
 }

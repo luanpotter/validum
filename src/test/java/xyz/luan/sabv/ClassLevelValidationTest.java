@@ -15,7 +15,7 @@ public class ClassLevelValidationTest extends BaseTestCase {
     public void testInvalidAddressDirectly() {
         Address address = new Address("Sesame Street", 404, "Block D");
         
-        List<String> errors = ValidationHelper.validate(address);
+        List<String> errors = validator.validate(address);
         assertListEquals(errors, ":xyz.luan.sabv.ValidAddress.invalidAddress");
     }
 
@@ -24,7 +24,7 @@ public class ClassLevelValidationTest extends BaseTestCase {
         Address address = new Address("Bad Street", 200, "Block E");
         Person person = new Person(null, 14, address);
         
-        List<String> errors = ValidationHelper.validate(person);
+        List<String> errors = validator.validate(person);
         assertListEquals(errors, ":name:Required.empty", ":address:xyz.luan.sabv.ValidAddress.invalidAddress");
     }
 }

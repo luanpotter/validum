@@ -21,7 +21,7 @@ public class StructuralTest extends BaseTestCase {
         Address address = new Address("Sesame Street", 42, "Block D");
         Person person = new AdvancedPerson("George", 21, address, Power.FLIGHT, Weakness.CATS);
         
-        List<String> errors = ValidationHelper.validate(person);
+        List<String> errors = validator.validate(person);
         assertListEmpty(errors);
     }
     
@@ -30,7 +30,7 @@ public class StructuralTest extends BaseTestCase {
         Address address = new Address("Sesame Street", 42, "Block D");
         Person person = new AdvancedPerson(null, 21, address, Power.IMMORTALITY, Weakness.CATS);
         
-        List<String> errors = ValidationHelper.validate(person);
+        List<String> errors = validator.validate(person);
         assertListEquals(errors, ":power:EnumOnly.notIn{strength,flight,telekinesis}", ":name:Required.empty");
     }
     
@@ -39,7 +39,7 @@ public class StructuralTest extends BaseTestCase {
         Address address = new Address(null, 42, "Block E");
         Person person = new AdvancedPerson("Flying Rat Man", 21, address, Power.FLIGHT, Weakness.CATS);
         
-        List<String> errors = ValidationHelper.validate(person);
+        List<String> errors = validator.validate(person);
         assertListEquals(errors, ":address:street:Required.empty");
     }
     
@@ -48,7 +48,7 @@ public class StructuralTest extends BaseTestCase {
         Address address = new Address("Baker Street", -221, "Apartment B");
         Person person = new AdvancedPerson("Flying Rat Man", 21, address, Power.FLIGHT, Weakness.KRIPTONITE);
         
-        List<String> errors = ValidationHelper.validate(person);
+        List<String> errors = validator.validate(person);
         assertListEquals(errors, ":address:number:Numeric.smallerThan{0.0}", ":weakness:EnumExcept.was{kriptonite}");
     }
     
@@ -57,7 +57,7 @@ public class StructuralTest extends BaseTestCase {
         Address address = new Address("Sesame Street", 42, "Block D");
         Person person = new Person("George", 21, address);
         
-        List<String> errors = ValidationHelper.validate(person);
+        List<String> errors = validator.validate(person);
         assertListEmpty(errors);
     }
     
@@ -66,7 +66,7 @@ public class StructuralTest extends BaseTestCase {
         Address address = new Address(null, 4, "Block D");
         Person person = new Person(null, 21, address);
         
-        List<String> errors = ValidationHelper.validate(person);
+        List<String> errors = validator.validate(person);
         Assert.assertEquals(2, errors.size());
         assertListEquals(errors, ":address:street:Required.empty", ":name:Required.empty");
     }
@@ -74,14 +74,14 @@ public class StructuralTest extends BaseTestCase {
     @Test
     public void testValidAddress() {
         Address address = new Address("Sesame Street", 42);
-        List<String> errors = ValidationHelper.validate(address);
+        List<String> errors = validator.validate(address);
         assertListEmpty(errors);
     }
 
     @Test
     public void testInvalidAddress() {
         Address address = new Address(null, 13);
-        List<String> errors = ValidationHelper.validate(address);
+        List<String> errors = validator.validate(address);
         assertListEquals(errors, ":street:Required.empty");
     }
 }

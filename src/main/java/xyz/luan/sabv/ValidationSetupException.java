@@ -5,11 +5,11 @@ package xyz.luan.sabv;
  * @author luan.nico
  *
  */
-public class ValidationException extends RuntimeException {
+public class ValidationSetupException extends RuntimeException {
 
     private static final long serialVersionUID = -967219229540851606L;
 
-    public ValidationException(String message) {
+    public ValidationSetupException(String message) {
         super(message);
     }
 }
