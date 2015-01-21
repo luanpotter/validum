@@ -1,9 +1,9 @@
-SABV
+validum
 ===
 
 [![Build Status](https://api.shippable.com/projects/53e6c4b5abb5ae8700a770d0/badge/master)](https://www.shippable.com/projects/53e6c4b5abb5ae8700a770d0/builds/history)
 
-SABV, or Simple Annotation Based Validations, is a basic lib that adds validations to your classes that can be called via annotations.
+validum is a basic lib that adds validations to your classes that can be called via annotations.
 It uses Java 8 brand new feature, the annotation target option ElementType.TYPE_USE, that allows you to validate the contents of your arrays and Lists with fine control.
 
 Features
