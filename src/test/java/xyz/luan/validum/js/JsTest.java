@@ -24,7 +24,7 @@ public class JsTest {
     }
 
     private Object runValidate(String arg) throws ScriptException, NoSuchMethodException {
-        return i.invokeFunction("eval", "sabv.validate(" + arg + ")");
+        return i.invokeFunction("eval", "validum.validate(" + arg + ")");
     }
 
 }

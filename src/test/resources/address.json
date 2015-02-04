@@ -1,15 +1,15 @@
 {
     "[c]": {
-        "[t]": "xyz.luan.sabv.entities.Address",
-        "@xyz.luan.sabv.customs.ValidAddress": {}
+        "[t]": "xyz.luan.validum.entities.Address",
+        "@xyz.luan.validum.customs.ValidAddress": {}
     },
     "street": {
         "[t]": "java.lang.String",
-        "@xyz.luan.sabv.validations.Required": {}
+        "@xyz.luan.validum.validations.Required": {}
     },
     "number": {
         "[t]": "int",
-        "@xyz.luan.sabv.validations.Numeric.Natural": {}
+        "@xyz.luan.validum.validations.Numeric.Natural": {}
     },
     "complement": {
         "[t]": "java.lang.String"

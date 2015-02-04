@@ -23,7 +23,7 @@ public final class JsSetup {
         engine.eval(reader("big.js"));
         engine.eval(reader("converter.js"));
         engine.eval(reader("validators.js"));
-        engine.eval(reader("sabv.js"));
+        engine.eval(reader("validum.js"));
 
         return invocable;
     }

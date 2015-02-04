@@ -21,7 +21,7 @@ public @interface ValidAddress {
         @Override
         public List<String> validate(Address address, ValidAddress annotation) {
             boolean invalid = address != null && (address.getNumber() == 404 || "Bad Street".equals(address.getStreet()));
-            return invalid ? Arrays.asList("xyz.luan.sabv.ValidAddress.invalidAddress") : Collections.emptyList();
+            return invalid ? Arrays.asList(ValidAddress.class.getCanonicalName() + ".invalidAddress") : Collections.emptyList();
         }
         
     }

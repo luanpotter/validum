@@ -1,22 +1,22 @@
 {
     "[c]": {
-        "[t]" : "xyz.luan.sabv.entities.Person"
+        "[t]" : "xyz.luan.validum.entities.Person"
     },
     "name": {
         "[t]" : "java.lang.String",
-        "@xyz.luan.sabv.validations.Required": {}
+        "@xyz.luan.validum.validations.Required": {}
     },
     "age": {
         "[t]" : "int",
-        "@xyz.luan.sabv.validations.Numeric": {
-            "maxCap": "xyz.luan.sabv.validations.Numeric.Cap.NONE",
-            "minCap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
-            "type": "xyz.luan.sabv.validations.Numeric.Type.INTEGER",
+        "@xyz.luan.validum.validations.Numeric": {
+            "maxCap": "xyz.luan.validum.validations.Numeric.Cap.NONE",
+            "minCap": "xyz.luan.validum.validations.Numeric.Cap.INCLUSIVE",
+            "type": "xyz.luan.validum.validations.Numeric.Type.INTEGER",
             "min": 0,
             "max": 0
         }
     },
     "address": {
-        "[t]" : "xyz.luan.sabv.entities.Address"
+        "[t]" : "xyz.luan.validum.entities.Address"
     }
 }

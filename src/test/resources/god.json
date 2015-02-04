@@ -1,53 +1,53 @@
 {
     "[c]": {
-        "[t]" : "xyz.luan.sabv.entities.God"
+        "[t]" : "xyz.luan.validum.entities.God"
     },
     "name": {
         "[t]" : "java.lang.String"
     },
     "powers": {
         "[t]" : "[a]",
-        "@xyz.luan.sabv.validations.Required": {},
-        "@xyz.luan.sabv.validations.Array": {
+        "@xyz.luan.validum.validations.Required": {},
+        "@xyz.luan.validum.validations.Array": {
             "maxLength": -1,
             "minLength": 2
         },
         "[e]": {
-            "[t]" : "xyz.luan.sabv.entities.Power",
-            "@xyz.luan.sabv.validations.Required": {}
+            "[t]" : "xyz.luan.validum.entities.Power",
+            "@xyz.luan.validum.validations.Required": {}
         }
     },
     "weaknesses": {
         "[t]" : "java.util.List",
-        "@xyz.luan.sabv.validations.Required": {},
-        "@xyz.luan.sabv.validations.Array": {
+        "@xyz.luan.validum.validations.Required": {},
+        "@xyz.luan.validum.validations.Array": {
             "maxLength": 2,
             "minLength": -1
         },
         "[e]": {
-            "[t]" : "xyz.luan.sabv.entities.Weakness",
-            "@xyz.luan.sabv.validations.Required": {}
+            "[t]" : "xyz.luan.validum.entities.Weakness",
+            "@xyz.luan.validum.validations.Required": {}
         }
     },
     "calculationMatrix": {
         "[t]" : "[a]",
-        "@xyz.luan.sabv.validations.Required": {},
-        "@xyz.luan.sabv.validations.Array.Fixed": {
+        "@xyz.luan.validum.validations.Required": {},
+        "@xyz.luan.validum.validations.Array.Fixed": {
             "value": 3
         },
         "[e]": {
             "[t]" : "[a]",
-            "@xyz.luan.sabv.validations.Array.Fixed": {
+            "@xyz.luan.validum.validations.Array.Fixed": {
                 "value": 4
             },
             "[e]": {
                 "[t]" : "float",
-                "@xyz.luan.sabv.validations.Numeric.Min": {
-                    "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                "@xyz.luan.validum.validations.Numeric.Min": {
+                    "cap": "xyz.luan.validum.validations.Numeric.Cap.INCLUSIVE",
                     "value": 3.5
                 },
-                "@xyz.luan.sabv.validations.Numeric.Max": {
-                    "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                "@xyz.luan.validum.validations.Numeric.Max": {
+                    "cap": "xyz.luan.validum.validations.Numeric.Cap.INCLUSIVE",
                     "value": 4
                 }
             }
@@ -55,41 +55,41 @@
     },
     "secondaryMatrixesByName": {
         "[t]" : "java.util.Map",
-        "@xyz.luan.sabv.validations.Array": {
+        "@xyz.luan.validum.validations.Array": {
             "maxLength": -1,
             "minLength": 1
         },
         "[k]": {
             "[t]" : "java.lang.String",
-            "@xyz.luan.sabv.customs.PalindromeString": {},
-            "@xyz.luan.sabv.validations.Required": {}
+            "@xyz.luan.validum.customs.PalindromeString": {},
+            "@xyz.luan.validum.validations.Required": {}
         },
         "[v]": {
             "[t]" : "java.util.List",
-            "@xyz.luan.sabv.validations.Required": {},
-            "@xyz.luan.sabv.validations.Array": {
+            "@xyz.luan.validum.validations.Required": {},
+            "@xyz.luan.validum.validations.Array": {
                 "maxLength": -1,
                 "minLength": 1
             },
             "[e]": {
                 "[t]" : "[a]",
-                "@xyz.luan.sabv.validations.Required": {},
-                "@xyz.luan.sabv.validations.Array.Fixed": {
+                "@xyz.luan.validum.validations.Required": {},
+                "@xyz.luan.validum.validations.Array.Fixed": {
                     "value": 3
                 },
                 "[e]": {
                     "[t]" : "[a]",
-                    "@xyz.luan.sabv.validations.Array.Fixed": {
+                    "@xyz.luan.validum.validations.Array.Fixed": {
                         "value": 4
                     },
                     "[e]": {
                         "[t]" : "float",
-                        "@xyz.luan.sabv.validations.Numeric.Min": {
-                            "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                        "@xyz.luan.validum.validations.Numeric.Min": {
+                            "cap": "xyz.luan.validum.validations.Numeric.Cap.INCLUSIVE",
                             "value": 3.5
                         },
-                        "@xyz.luan.sabv.validations.Numeric.Max": {
-                            "cap": "xyz.luan.sabv.validations.Numeric.Cap.INCLUSIVE",
+                        "@xyz.luan.validum.validations.Numeric.Max": {
+                            "cap": "xyz.luan.validum.validations.Numeric.Cap.INCLUSIVE",
                             "value": 4
                         }
                     }

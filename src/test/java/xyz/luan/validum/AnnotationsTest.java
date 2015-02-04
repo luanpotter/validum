@@ -14,14 +14,14 @@ public class AnnotationsTest extends BaseTestCase {
     public void testInvalidRequired() {
         Address address = new Address(null, 13);
         List<String> errors = validator.validate(address);
-        assertListEquals(errors, ":street:Required.empty");
+        assertListEquals(errors, ":street:" + ErrorMessagesReference.REQUIRED);
     }
 
     @Test
     public void testInvalidNumeric() {
         Address address = new Address("Sesame Street", -2);
         List<String> errors = validator.validate(address);
-        assertListEquals(errors, ":number:Numeric.smallerThan{0.0}");
+        assertListEquals(errors, ":number:" + ErrorMessagesReference.SMALLER_THAN + "{0.0}");
     }
 
     @Test
@@ -30,5 +30,4 @@ public class AnnotationsTest extends BaseTestCase {
         List<String> errors = validator.validate(address);
         assertListEmpty(errors);
     }
-    
 }
