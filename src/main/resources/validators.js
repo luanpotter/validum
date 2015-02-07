@@ -1,12 +1,12 @@
 validum.validators = (function() {
-	var PACKAGE = 'xyz.luan.validum.validations.';
+	var PACKAGE = '@xyz.luan.validum.validations.';
 	var map = {};
 
-	map[PACKAGE + '@Required'] = function(obj, _ann) {
+	map[PACKAGE + 'Required'] = function(obj, _ann) {
 		return obj === null ? [ 'Required.empty' ] : [];
 	};
 
-	map[PACKAGE + '@Numeric'] = function(number, ann) {
+	map[PACKAGE + 'Numeric'] = function(number, ann) {
 		if (number === null) {
 			return [];
 		}

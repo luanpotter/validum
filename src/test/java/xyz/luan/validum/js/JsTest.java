@@ -1,33 +1,28 @@
 package xyz.luan.validum.js;
 
-import javax.script.Invocable;
 import javax.script.ScriptException;
 
-import junit.framework.Assert;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class JsTest {
 
-    private Invocable i;
+    private ScriptObjectMirror validum;
 
     @Before
     public void setup() throws NoSuchMethodException, ScriptException {
-        i = JsSetup.setupInvocable();
+        validum = (ScriptObjectMirror) JsSetup.setupInvocable().invokeFunction("eval", "validum");
     }
 
-    @Ignore
     @Test
-    public void testBlah() throws NoSuchMethodException, ScriptException {
-        Object ret = runValidate("'my string', classDefs['person']");
-        System.out.println(JsSetup.deepToString(ret));
-        Assert.fail();
+    public void testValidation() throws NoSuchMethodException, ScriptException {
+        Object errors = runValidate("{}", "xyz.luan.validum.entities.Person");
+        JsSetup.assertErrors(errors, ":name:Required.empty");
     }
 
-    private Object runValidate(String arg) throws ScriptException, NoSuchMethodException {
-        return i.invokeFunction("eval", "validum.validate(" + arg + ")");
+    private Object runValidate(Object... args) throws ScriptException, NoSuchMethodException {
+        return validum.callMember("validateJava", args);
     }
-
 }

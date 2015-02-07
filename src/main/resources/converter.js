@@ -1,6 +1,6 @@
 validum.convert = (function() {
 
-	var ConverterException = function(message) {
+	var ConverterException = validum.ConverterException = function(message) {
 		this.name = 'ConverterException';
 		this.message = message;
 	};
@@ -83,12 +83,53 @@ validum.convert = (function() {
 		return str;
 	};
 
-	return function(obj, type) {
-		var converter = types[type];
-		if (converter) {
-			return converter(obj);
-		}
-		throw new ConverterException('InvalidType');
+	var JavaObject = function(typeDef) {
+		this.typeDef = typeDef;
 	};
+	JavaObject.prototype.getClass = function() {
+		return this.typeDef;
+	};
+
+	var convertObject = function(typeDef) {
+		return function(obj) {
+			if (!(typeof obj === 'object')) {
+				throw new ConverterException('InconvertableTypes{' + (typeof obj) + ', ' + typeDef + '}');
+			}
+			var result = new JavaObject(typeDef);
+			validum._.each(obj, function(name, value) {
+				if (!typeDef[name]) {
+					throw new ConverterException('InvalidField{' + name + '}');
+				}
+				result[name] = value;
+			});
+			validum._.each(typeDef, function(name) {
+				result[name] = result[name] || null;
+			});
+			return result;
+		}
+	};
+
+	var convert = function(obj, type) {
+		var converter = types[type];
+		if (!converter) {
+			throw new ConverterException('InvalidType{' + type + '}');
+		}
+		if (obj === null || obj === undefined) {
+			return null;
+		}
+		return converter(obj);
+	};
+
+	convert.setup = function(classDefs) {
+		if (!(classDefs instanceof Array)) {
+			classDefs = [ classDefs ];
+		}
+		validum._.each(classDefs, function(_i, classDef) {
+			var className = classDef['[c]']['[t]'];
+			types[className] = convertObject(classDef);
+		});
+	};
+
+	return convert;
 
 })();
