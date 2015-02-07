@@ -24,6 +24,7 @@ public final class JsSetup {
         final Invocable invocable = (Invocable) engine;
 
         engine.eval(reader("big.js"));
+        engine.eval(reader("common.js"));
         engine.eval(reader("converter.js"));
         engine.eval(reader("validators.js"));
         engine.eval(reader("validum.js"));

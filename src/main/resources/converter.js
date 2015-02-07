@@ -1,10 +1,13 @@
-var validum = validum || {};
 validum.convert = (function() {
 
 	var ConverterException = function(message) {
 		this.name = 'ConverterException';
 		this.message = message;
 	};
+
+	ConverterException.prototype.getMessage = function() {
+		return this.message;
+	}
 
 	var types = {};
 
@@ -51,7 +54,7 @@ validum.convert = (function() {
 			'max_value' : null
 		};
 
-		for ( var el in numbers) {
+		validum._.each(numbers, function(el, num) {
 			types[el] = function(num) {
 				var ntype = numbers[el], big;
 				try {
@@ -60,19 +63,19 @@ validum.convert = (function() {
 					throw new ConverterException('Numeric.notANumber');
 				}
 
-				if (ntype.precision && !num.mod(ntype.precision).eq(0)) {
+				if (ntype.precision && !big.mod(ntype.precision).eq(0)) {
 					throw new ConverterException('Numeric.precisionGreaterThan{' + ntype.precision + '}');
 				}
 
-				if (ntype.max_value && num.gt(ntype.max_value)) {
-					throw new ConverterException('Numeric.greaterThan{' + ntype.max_value + '}');
-				} else if (ntype.min_value && num.lt(ntype.min_value)) {
-					throw new ConverterException('Numeric.smallerThan{' + ntype.min_value + '}');
+				if (ntype.max_value && big.gt(ntype.max_value)) {
+					throw new ConverterException('Numeric.greaterThan{' + ntype.max_value.toString() + '}');
+				} else if (ntype.min_value && big.lt(ntype.min_value)) {
+					throw new ConverterException('Numeric.smallerThan{' + ntype.min_value.toString() + '}');
 				}
 
 				return big;
 			};
-		}
+		});
 	};
 	setupNumbers();
 

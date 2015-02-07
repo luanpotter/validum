@@ -1,4 +1,3 @@
-var validum = validum || {};
 validum.validators = (function() {
 	var PACKAGE = 'xyz.luan.validum.validations.';
 	var map = {};
