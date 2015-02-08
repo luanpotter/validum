@@ -34,12 +34,20 @@ validum.validate = function(rawObj, className) {
 				return;
 			}
 
+			if (converted) {
+				validation(converted, field['[t]'], fieldPrefix, errors);
+			}
+
 			validum._.each(field, function(name, validation) {
 				if (name == '[t]') {
 					return;
 				}
 				if (name == '[c]') {
-					// TODO
+					// TODO validate array elements
+				} else if (name == '[k]') {
+					// TODO validate map keys
+				} else if (name == '[v]') {
+					// TODO validate map values
 				} else {
 					var validator = validum.validators[name];
 					if (validator) {

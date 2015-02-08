@@ -83,11 +83,13 @@ validum.convert = (function() {
 		return str;
 	};
 
-	var JavaObject = function(typeDef) {
-		this.typeDef = typeDef;
-	};
-	JavaObject.prototype.getClass = function() {
-		return this.typeDef;
+	var createJavaObject = function(typeDef) {
+		var MyClass = function() {
+		};
+		MyClass.prototype.getClass = function() {
+			return typeDef;
+		};
+		return new MyClass();
 	};
 
 	var convertObject = function(typeDef) {
@@ -95,7 +97,7 @@ validum.convert = (function() {
 			if (!(typeof obj === 'object')) {
 				throw new ConverterException('InconvertableTypes{' + (typeof obj) + ', ' + typeDef + '}');
 			}
-			var result = new JavaObject(typeDef);
+			var result = createJavaObject(typeDef);
 			validum._.each(obj, function(name, value) {
 				if (!typeDef[name]) {
 					throw new ConverterException('InvalidField{' + name + '}');

@@ -42,7 +42,7 @@ public final class JsSetup {
     }
 
     public static class JsonBuilder {
-        private Map<String, String> map;
+        private Map<String, Object> map;
 
         public JsonBuilder() {
             this.map = new HashMap<>();
@@ -53,15 +53,20 @@ public final class JsSetup {
             return this;
         }
 
+        public JsonBuilder add(String key, JsonBuilder obj) {
+            this.map.put(key, obj.map);
+            return this;
+        }
+
         private static String wrap(String str) {
             return '"' + str + '"';
         }
 
         @SuppressWarnings("unchecked")
-        public static String mapToString(Map<String, String> map) {
+        public static String mapToString(Map<String, Object> map) {
             return "{" + map.keySet().stream().map((k) -> {
                 Object element = map.get(k);
-                String elementString = element instanceof Map ? mapToString((Map<String, String>) element) : wrap(element.toString());
+                String elementString = element instanceof Map ? mapToString((Map<String, Object>) element) : wrap(element.toString());
                 return '"' + k + "\": " + elementString;
             }).collect(Collectors.joining(", ")) + " }";
         }
@@ -127,5 +132,9 @@ public final class JsSetup {
         Collections.sort(expected);
 
         Assert.assertEquals(expected, errors);
+    }
+
+    public static void assertEmptyErrors(Object errorsObj) {
+        Assert.assertEquals(0, ((ScriptObjectMirror) errorsObj).values().size());
     }
 }

@@ -42,5 +42,14 @@ validum.validators = (function() {
 		return errors;
 	};
 
+	map[PACKAGE + 'Numeric.Natural'] = function(number) {
+		return map[PACKAGE + 'Numeric'](number, {
+			type : PACKAGE + 'Type.INTEGER',
+			minCap : PACKAGE + 'Cap.INCLUSIVE',
+			min : 0,
+			maxCap : PACKAGE + 'Cap.NONE'
+		});
+	};
+
 	return map;
 })();
