@@ -18,12 +18,18 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import jdk.nashorn.internal.runtime.ECMAException;
 import junit.framework.Assert;
 
-public final class JsSetup {
+import org.junit.Before;
 
-    private JsSetup() {
-        throw new RuntimeException("This class should not be instanciated.");
+public class BaseJsTest {
+
+    protected ScriptObjectMirror validum;
+
+    @Before
+    public void setup() throws NoSuchMethodException, ScriptException {
+        validum = (ScriptObjectMirror) BaseJsTest.setupInvocable().invokeFunction("eval", "validum");
     }
 
     public static Invocable setupInvocable() throws ScriptException, NoSuchMethodException {
@@ -115,13 +121,13 @@ public final class JsSetup {
 
     private static FileReader reader(String fileName) {
         try {
-            return new FileReader(JsSetup.class.getResource("/" + fileName).getFile());
+            return new FileReader(BaseJsTest.class.getResource("/" + fileName).getFile());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    public static void assertErrors(Object errorsObj, String... expectedArray) {
+    protected void assertErrors(Object errorsObj, String... expectedArray) {
         List<String> errors = new ArrayList<>();
         for (Object error : ((ScriptObjectMirror) errorsObj).values()) {
             errors.add(error.toString());
@@ -134,7 +140,12 @@ public final class JsSetup {
         Assert.assertEquals(expected, errors);
     }
 
-    public static void assertEmptyErrors(Object errorsObj) {
+    protected void assertEmptyErrors(Object errorsObj) {
         Assert.assertEquals(0, ((ScriptObjectMirror) errorsObj).values().size());
+    }
+
+    protected void assertFailure(ECMAException ex, final String message) {
+        ScriptObjectMirror converterException = (ScriptObjectMirror) ex.getEcmaError();
+        Assert.assertEquals(message, converterException.callMember("getMessage"));
     }
 }

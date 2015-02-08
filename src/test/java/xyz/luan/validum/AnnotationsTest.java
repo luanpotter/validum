@@ -1,14 +1,12 @@
 package xyz.luan.validum;
 
-import static xyz.luan.validum.TestCommons.*;
-
 import java.util.List;
 
 import org.junit.Test;
 
 import xyz.luan.validum.entities.Address;
 
-public class AnnotationsTest extends BaseTestCase {
+public class AnnotationsTest extends BaseTest {
 
     @Test
     public void testInvalidRequired() {

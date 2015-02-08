@@ -1,17 +1,18 @@
-package xyz.luan.validum;
+package xyz.luan.validum.outliner;
 
 import org.json.JSONException;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
+import xyz.luan.validum.BaseTest;
 import xyz.luan.validum.entities.Address;
 import xyz.luan.validum.entities.AdvancedPerson;
 import xyz.luan.validum.entities.God;
 import xyz.luan.validum.entities.Person;
-import xyz.luan.validum.js.JsSetup;
+import xyz.luan.validum.js.BaseJsTest;
 import xyz.luan.validum.outliner.ClassOutliner;
 
-public class ClassOutlinerTest extends BaseTestCase {
+public class ClassOutlinerTest extends BaseTest {
 
 	@Test
 	public void testAddressOutline() {
@@ -34,7 +35,7 @@ public class ClassOutlinerTest extends BaseTestCase {
 	}
 
 	private void testOutline(Class<?> clazz, String fileName) {
-		final String expectedJson = JsSetup.readString(fileName);
+		final String expectedJson = BaseJsTest.readString(fileName);
 		String result = ClassOutliner.getJson(clazz);
 		try {
 			JSONAssert.assertEquals(expectedJson, result, true);

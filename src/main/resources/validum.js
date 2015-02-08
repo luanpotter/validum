@@ -14,7 +14,13 @@ validum.validate = function(rawObj, className) {
 			parseError(errors, prefix, e);
 			return errors;
 		}
-		if (obj === null) {
+		var empty = obj === null;
+		if (empty) {
+			return errors;
+		}
+
+		var primitive = !obj.getClass;
+		if (primitive) {
 			return errors;
 		}
 

@@ -2,24 +2,15 @@ package xyz.luan.validum.js;
 
 import java.math.BigDecimal;
 
-import javax.script.Invocable;
 import javax.script.ScriptException;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.ECMAException;
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.Test;
 
-public class ConverterTest {
-
-    private Invocable i;
-
-    @Before
-    public void setup() throws NoSuchMethodException, ScriptException {
-        i = JsSetup.setupInvocable();
-    }
+public class ConverterTest extends BaseJsTest {
 
     @Test
     public void testBigDecimalConvertion() throws NoSuchMethodException, ScriptException {
@@ -45,7 +36,7 @@ public class ConverterTest {
         try {
             final String integer = "655.36";
             runConverter(integer, Short.class);
-        } catch (ScriptException ex) {
+        } catch (ECMAException ex) {
             assertFailure(ex, "Numeric.precisionGreaterThan{1}");
             return;
         }
@@ -57,7 +48,7 @@ public class ConverterTest {
         try {
             final String integer = "655a36";
             runConverter(integer, Short.class);
-        } catch (ScriptException ex) {
+        } catch (ECMAException ex) {
             assertFailure(ex, "Numeric.notANumber");
             return;
         }
@@ -69,20 +60,11 @@ public class ConverterTest {
         try {
             final String integer = "65536";
             runConverter(integer, Short.class);
-        } catch (ScriptException ex) {
+        } catch (ECMAException ex) {
             assertFailure(ex, "Numeric.greaterThan{32767}");
             return;
         }
         Assert.fail("Should have thrown ConverterException");
-    }
-
-    private void assertFailure(ScriptException ex, final String message) throws ScriptException {
-        if (!(ex.getCause() instanceof ECMAException)) {
-            throw ex;
-        }
-        ECMAException cause = (ECMAException) ex.getCause();
-        ScriptObjectMirror converterException = (ScriptObjectMirror) cause.getEcmaError();
-        Assert.assertEquals(message, converterException.callMember("getMessage"));
     }
 
     @Test
@@ -93,8 +75,8 @@ public class ConverterTest {
         Assert.assertEquals("my string", ret);
     }
 
-    private Object runConverter(String obj, Class<?> type) throws ScriptException, NoSuchMethodException {
-        return i.invokeFunction("eval", "validum.convert('" + obj + "', '" + type.getCanonicalName() + "');");
+    private Object runConverter(String obj, Class<?> type) throws ECMAException, NoSuchMethodException {
+        return validum.callMember("convert", obj, type.getCanonicalName());
     }
 
 }

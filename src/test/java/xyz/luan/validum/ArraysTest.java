@@ -1,7 +1,12 @@
 package xyz.luan.validum;
 
-import static xyz.luan.validum.TestCommons.assertListEmpty;
-import static xyz.luan.validum.TestCommons.assertListEquals;
+import static xyz.luan.validum.ErrorMessagesReference.GREATER_THAN;
+import static xyz.luan.validum.ErrorMessagesReference.LENGTH_ABOVE;
+import static xyz.luan.validum.ErrorMessagesReference.LENGTH_BELOW;
+import static xyz.luan.validum.ErrorMessagesReference.LENGTH_DIFFERS;
+import static xyz.luan.validum.ErrorMessagesReference.NOT_PALINDROME;
+import static xyz.luan.validum.ErrorMessagesReference.REQUIRED;
+import static xyz.luan.validum.ErrorMessagesReference.SMALLER_THAN;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,14 +16,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import xyz.luan.validum.Validator;
 import xyz.luan.validum.customs.PalindromeString;
 import xyz.luan.validum.entities.God;
 import xyz.luan.validum.entities.Power;
 import xyz.luan.validum.entities.Weakness;
-import static xyz.luan.validum.ErrorMessagesReference.*;
 
-public class ArraysTest extends BaseTestCase {
+public class ArraysTest extends BaseTest {
 
     @Test
     public void testArraysFirstLevelAnnotationsInvalid() {
@@ -147,7 +150,6 @@ public class ArraysTest extends BaseTestCase {
             ":secondaryMatrixesByName:[AABBAA]:[0]:[2]:[3]:" + SMALLER_THAN + "{3.5}",
             ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:" + LENGTH_DIFFERS + "{4}",
             ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:[1]:" + GREATER_THAN + "{4.0}",
-            ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:[4]:" + SMALLER_THAN + "{3.5}"
-        });
+            ":secondaryMatrixesByName:[AABBAA]:[0]:[3]:[4]:" + SMALLER_THAN + "{3.5}" });
     }
 }

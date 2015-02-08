@@ -1,7 +1,9 @@
 package xyz.luan.validum;
 
-import static xyz.luan.validum.TestCommons.assertListEmpty;
-import static xyz.luan.validum.TestCommons.assertListEquals;
+import static xyz.luan.validum.ErrorMessagesReference.ENUM_NOT_IN;
+import static xyz.luan.validum.ErrorMessagesReference.ENUM_WAS;
+import static xyz.luan.validum.ErrorMessagesReference.REQUIRED;
+import static xyz.luan.validum.ErrorMessagesReference.SMALLER_THAN;
 
 import java.util.List;
 
@@ -13,9 +15,8 @@ import xyz.luan.validum.entities.AdvancedPerson;
 import xyz.luan.validum.entities.Person;
 import xyz.luan.validum.entities.Power;
 import xyz.luan.validum.entities.Weakness;
-import static xyz.luan.validum.ErrorMessagesReference.*;
 
-public class StructuralTest extends BaseTestCase {
+public class StructuralTest extends BaseTest {
 
     @Test
     public void testValidAdvancedPersonWithValidAddress() {

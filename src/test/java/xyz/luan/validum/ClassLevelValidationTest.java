@@ -2,7 +2,6 @@ package xyz.luan.validum;
 
 import static xyz.luan.validum.ErrorMessagesReference.INVALID_ADDRESS;
 import static xyz.luan.validum.ErrorMessagesReference.REQUIRED;
-import static xyz.luan.validum.TestCommons.assertListEquals;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import org.junit.Test;
 import xyz.luan.validum.entities.Address;
 import xyz.luan.validum.entities.Person;
 
-public class ClassLevelValidationTest extends BaseTestCase {
+public class ClassLevelValidationTest extends BaseTest {
 
     @Test
     public void testInvalidAddressDirectly() {

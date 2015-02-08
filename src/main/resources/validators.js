@@ -19,23 +19,23 @@ validum.validators = (function() {
 			}
 		}
 
-		if (annotation.maxCap === PACKAGE + 'Cap.INCLUSIVE') {
-			if (number.gt(annotation.max)) {
-				errors.push('Numeric.greaterThan{' + annotation.max + '}');
+		if (ann.maxCap === PACKAGE + 'Cap.INCLUSIVE') {
+			if (number.gt(ann.max)) {
+				errors.push('Numeric.greaterThan{' + ann.max + '}');
 			}
-		} else if (annotation.maxCap === PACKAGE + 'Cap.EXCLUSIVE') {
-			if (number.gte(annotation.max)) {
-				errors.push('Numeric.greaterOrEqualTo{' + annotation.max + '}');
+		} else if (ann.maxCap === PACKAGE + 'Cap.EXCLUSIVE') {
+			if (number.gte(ann.max)) {
+				errors.push('Numeric.greaterOrEqualTo{' + ann.max + '}');
 			}
 		}
 
-		if (annotation.minCap === PACKAGE + 'Cap.INCLUSIVE') {
-			if (number.lt(annotation.min)) {
-				errors.push('Numeric.smallerThan{' + annotation.min + '}');
+		if (ann.minCap === PACKAGE + 'Cap.INCLUSIVE') {
+			if (number.lt(ann.min)) {
+				errors.push('Numeric.smallerThan{' + ann.min + '}');
 			}
-		} else if (annotation.minCap === PACKAGE + 'Cap.EXCLUSIVE') {
-			if (number.lte(annotation.min)) {
-				errors.push('Numeric.smallerOrEqualTo{' + annotation.min + '}');
+		} else if (ann.minCap === PACKAGE + 'Cap.EXCLUSIVE') {
+			if (number.lte(ann.min)) {
+				errors.push('Numeric.smallerOrEqualTo{' + ann.min + '}');
 			}
 		}
 
@@ -48,6 +48,22 @@ validum.validators = (function() {
 			minCap : PACKAGE + 'Cap.INCLUSIVE',
 			min : 0,
 			maxCap : PACKAGE + 'Cap.NONE'
+		});
+	};
+
+	map[PACKAGE + 'Numeric.Min'] = function(number, min) {
+		return map[PACKAGE + 'Numeric'](number, {
+			minCap : min.cap,
+			min : min.value,
+			maxCap : PACKAGE + 'Cap.NONE'
+		});
+	};
+
+	map[PACKAGE + 'Numeric.Max'] = function(number, max) {
+		return map[PACKAGE + 'Numeric'](number, {
+			maxCap : max.cap,
+			max : max.value,
+			minCap : PACKAGE + 'Cap.NONE'
 		});
 	};
 
