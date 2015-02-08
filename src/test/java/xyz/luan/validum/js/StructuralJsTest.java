@@ -25,6 +25,12 @@ public class StructuralJsTest extends BaseJsTest {
         assertEmptyErrors(errors);
     }
 
+    @Test
+    public void testClassLevelValidation() throws NoSuchMethodException, ScriptException {
+        Object errors = runValidate(map().add("street", "Bad Street").build(), "xyz.luan.validum.entities.Address");
+        assertErrors(errors, ":ValidAddress.invalidAddress");
+    }
+
     private Object runValidate(Object... args) throws ScriptException, NoSuchMethodException {
         return validum.callMember("validateJava", args);
     }

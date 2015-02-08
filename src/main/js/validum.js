@@ -25,6 +25,18 @@ validum.validate = function(rawObj, className) {
 			return errors;
 		}
 
+		var applyValidation = function(name, object, validation, prefix) {
+			var validator = validum.validators[name];
+			if (validator) {
+				var newErrors = validator(object, validation);
+				validum._.each(newErrors, function(_i, error) {
+					errors.push(prefix + error);
+				});
+			} else {
+				errors.push(prefix + 'InvalidValidation{' + name + '}');
+			}
+		};
+
 		var classDef = obj.getClass();
 		var str = '';
 		validum._.each(classDef, function(fieldName, field) {
@@ -56,19 +68,21 @@ validum.validate = function(rawObj, className) {
 				} else if (name == '[v]') {
 					// TODO validate map values
 				} else {
-					var validator = validum.validators[name];
-					if (validator) {
-						var newErrors = validator(converted, validation);
-						validum._.each(newErrors, function(_i, error) {
-							errors.push(fieldPrefix + error);
-						});
-					} else {
-						errors.push(fieldPrefix + 'InvalidValidation{' + name + '}');
-					}
+					applyValidation(name, converted, validation, fieldPrefix);
 				}
 			});
 		});
-		// TODO validate whole class
+
+		var classLevelValidations = function() {
+			validum._.each(classDef['[c]'], function(name, validation) {
+				if (name == '[t]') {
+					return;
+				}
+				applyValidation(name, obj, validation, prefix);
+			});
+		};
+
+		classLevelValidations();
 		return errors;
 	};
 	return validation(rawObj, className, ':', []);

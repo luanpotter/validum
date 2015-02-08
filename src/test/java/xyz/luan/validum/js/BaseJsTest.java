@@ -38,10 +38,13 @@ public class BaseJsTest {
 
         engine.eval(reader("dependencies.js"));
         engine.eval(reader("common.js"));
-        engine.eval(reader("validum_java_binder.js"));
         engine.eval(reader("converter.js"));
         engine.eval(reader("validators.js"));
         engine.eval(reader("validum.js"));
+
+        engine.eval(reader("validum_java_binder.js"));
+        engine.eval(reader("custom_validators.js"));
+
         setupClasses(engine, new String[] { "address", "person", "advanced_person", "god" });
 
         return invocable;
