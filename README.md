@@ -2,6 +2,7 @@ validum
 ===
 
 [![Build Status](https://travis-ci.org/luanpotter/validum.svg)](https://travis-ci.org/luanpotter/validum)
+[![Code Climate](https://codeclimate.com/github/luanpotter/validum/badges/gpa.svg)](https://codeclimate.com/github/luanpotter/validum)
 
 validum is a basic lib that adds validations to your classes that can be called via annotations.
 It uses Java 8 brand new feature, the annotation target option ElementType.TYPE_USE, that allows you to validate the contents of your arrays and Lists with fine control.
