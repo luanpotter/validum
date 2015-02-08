@@ -36,7 +36,7 @@ public class BaseJsTest {
         final ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
         final Invocable invocable = (Invocable) engine;
 
-        engine.eval(reader("big.js"));
+        engine.eval(reader("dependencies.js"));
         engine.eval(reader("common.js"));
         engine.eval(reader("validum_java_binder.js"));
         engine.eval(reader("converter.js"));

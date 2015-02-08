@@ -1,3 +1,4 @@
+var validum = validum || {};
 validum.validate = function(rawObj, className) {
 	var parseError = function(errors, fieldPrefix, e) {
 		if (e instanceof validum.ConverterException) {

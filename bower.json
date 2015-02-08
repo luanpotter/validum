@@ -1,0 +1,33 @@
+{
+  "name": "validum",
+  "version": "0.1.0",
+  "homepage": "https://github.com/luanpotter/validum",
+  "authors": [
+    "Luan Nico <luanpotter28@hotmail.com>"
+  ],
+  "description": "Annotation based validations that work both on client- and server-side.",
+  "main": [
+    "src/main/resources/validum.js",
+    "src/main/resources/common.js",
+    "src/main/resources/validators.js",
+    "src/main/resources/converter.js"
+  ],
+  "dependencies": {
+    "big.js" : "3.0.0"
+  },
+  "keywords": [
+    "validum",
+    "validation",
+    "client",
+    "server",
+    "side"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

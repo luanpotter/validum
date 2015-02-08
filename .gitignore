@@ -5,3 +5,9 @@ bin/
 target/
 build/
 dist/
+bower_components/
+lib/
+node/
+node_modules/
+src/main/js/dependencies.js
+

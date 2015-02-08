@@ -1,3 +1,4 @@
+var validum = validum || {};
 validum.convert = (function() {
 
 	var ConverterException = validum.ConverterException = function(message) {
@@ -7,38 +8,38 @@ validum.convert = (function() {
 
 	ConverterException.prototype.getMessage = function() {
 		return this.message;
-	}
+	};
 
 	var types = {};
 
 	var setupNumbers = function() {
 		var numbers = {};
-		numbers['byte'] = numbers['java.lang.Byte'] = {
+		numbers.byte = numbers['java.lang.Byte'] = {
 			'precision' : new Big(1),
 			'min_value' : new Big('-128'),
 			'max_value' : new Big('127')
 		};
-		numbers['short'] = numbers['java.lang.Short'] = {
+		numbers.short = numbers['java.lang.Short'] = {
 			'precision' : new Big(1),
 			'min_value' : new Big('-32768'),
 			'max_value' : new Big('32767')
 		};
-		numbers['int'] = numbers['java.lang.Integer'] = {
+		numbers.int = numbers['java.lang.Integer'] = {
 			'precision' : new Big(1),
 			'min_value' : new Big('-2147483648'),
 			'max_value' : new Big('2147483647')
 		};
-		numbers['long'] = numbers['java.lang.Long'] = {
+		numbers.long = numbers['java.lang.Long'] = {
 			'precision' : new Big(1),
 			'min_value' : new Big('-9223372036854775808'),
 			'max_value' : new Big('9223372036854775807')
 		};
-		numbers['float'] = numbers['java.lang.Float'] = {
+		numbers.float = numbers['java.lang.Float'] = {
 			'precision' : new Big('1.4E-45'),
 			'min_value' : new Big('-3.4028235E38'),
 			'max_value' : new Big('3.4028235E38')
 		};
-		numbers['double'] = numbers['java.lang.Double'] = {
+		numbers.double = numbers['java.lang.Double'] = {
 			'precision' : new Big('-4.9E-324'),
 			'min_value' : new Big('-1.7976931348623157E308'),
 			'max_value' : new Big('1.7976931348623157E308')
@@ -94,7 +95,7 @@ validum.convert = (function() {
 
 	var convertObject = function(typeDef) {
 		return function(obj) {
-			if (!(typeof obj === 'object')) {
+			if (typeof obj !== 'object') {
 				throw new ConverterException('InconvertableTypes{' + (typeof obj) + ', ' + typeDef + '}');
 			}
 			var result = createJavaObject(typeDef);
@@ -108,7 +109,7 @@ validum.convert = (function() {
 				result[name] = result[name] || null;
 			});
 			return result;
-		}
+		};
 	};
 
 	var convert = function(obj, type) {
