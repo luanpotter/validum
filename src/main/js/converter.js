@@ -55,9 +55,9 @@ validum.convert = (function() {
 			'max_value' : null
 		};
 
-		validum._.each(numbers, function(el, num) {
+		validum._.each(numbers, function(el, ntype) {
 			types[el] = function(num) {
-				var ntype = numbers[el], big;
+				var big;
 				try {
 					big = new Big(num);
 				} catch (nan) {

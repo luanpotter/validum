@@ -3,7 +3,7 @@ validum.validators = (function() {
 	var PACKAGE = '@xyz.luan.validum.validations.';
 	var map = {};
 
-	map[PACKAGE + 'Required'] = function(obj, _ann) {
+	map[PACKAGE + 'Required'] = function(obj) {
 		return obj === null ? [ 'Required.empty' ] : [];
 	};
 
