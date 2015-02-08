@@ -38,9 +38,8 @@ validum.validate = function(rawObj, className) {
 		};
 
 		var classDef = obj.getClass();
-		var str = '';
 		validum._.each(classDef, function(fieldName, field) {
-			if (fieldName == '[c]') {
+			if (fieldName === '[c]') {
 				return;
 			}
 			var fieldPrefix = prefix + fieldName + ':';
@@ -58,14 +57,14 @@ validum.validate = function(rawObj, className) {
 			}
 
 			validum._.each(field, function(name, validation) {
-				if (name == '[t]') {
+				if (name === '[t]') {
 					return;
 				}
-				if (name == '[c]') {
+				if (name === '[c]') {
 					// TODO validate array elements
-				} else if (name == '[k]') {
+				} else if (name === '[k]') {
 					// TODO validate map keys
-				} else if (name == '[v]') {
+				} else if (name === '[v]') {
 					// TODO validate map values
 				} else {
 					applyValidation(name, converted, validation, fieldPrefix);
@@ -75,7 +74,7 @@ validum.validate = function(rawObj, className) {
 
 		var classLevelValidations = function() {
 			validum._.each(classDef['[c]'], function(name, validation) {
-				if (name == '[t]') {
+				if (name === '[t]') {
 					return;
 				}
 				applyValidation(name, obj, validation, prefix);
