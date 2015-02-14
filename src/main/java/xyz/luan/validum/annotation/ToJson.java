@@ -46,9 +46,8 @@ public final class ToJson {
     }
 
     private static String annotationMethodToJson(Object value) {
-        final List<Class<?>> NUMBERS = Arrays.asList(byte.class, short.class, int.class, long.class, float.class, double.class, Byte.class, Short.class,
-                Integer.class, Long.class, Float.class, Double.class);
-        if (NUMBERS.contains(value.getClass())) {
+        final List<Class<?>> numbers = Arrays.asList(byte.class, short.class, int.class, long.class, float.class, double.class);
+        if (numbers.contains(value.getClass()) || Number.class.isAssignableFrom(value.getClass())) {
             return value.toString();
         }
         if (value.getClass().isPrimitive() || value instanceof String) {
