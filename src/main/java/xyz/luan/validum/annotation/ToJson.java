@@ -13,7 +13,7 @@ import xyz.luan.validum.outliner.ClassOutlinerNames;
 public final class ToJson {
 
     private ToJson() {
-        throw new RuntimeException("Should not be instancited");
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
     public static String annotationToJson(Annotation a) {

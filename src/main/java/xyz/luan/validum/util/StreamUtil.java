@@ -5,6 +5,10 @@ import java.util.stream.Stream;
 
 public class StreamUtil {
 
+    private StreamUtil() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
     @SafeVarargs
     public static <T> Stream<T> add(Stream<T> s, T... el) {
         return Stream.concat(s, toStream(el));

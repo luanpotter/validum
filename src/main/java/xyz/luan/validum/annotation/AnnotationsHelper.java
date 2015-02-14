@@ -18,7 +18,7 @@ import xyz.luan.reflection.ReflectionUtils;
 public final class AnnotationsHelper {
 
     private AnnotationsHelper() {
-        throw new RuntimeException("Should not be instanciated.");
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
     public static AnnotationLevel getNestedAnnotations(Field f) {

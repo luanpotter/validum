@@ -18,7 +18,7 @@ import xyz.luan.validum.util.StreamUtil;
 public final class ClassOutliner {
 
     private ClassOutliner() {
-        throw new RuntimeException("Should not be instanciated.");
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
     public static String getJson(Class<?> c) {

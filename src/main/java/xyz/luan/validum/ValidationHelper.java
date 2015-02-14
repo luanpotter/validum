@@ -11,7 +11,7 @@ import xyz.luan.reflection.tclass.TypedClass;
 public final class ValidationHelper {
 
     private ValidationHelper() {
-        throw new RuntimeException("Should not be instancited");
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
     public static boolean isValidationAnnotation(Annotation ann) {
@@ -42,7 +42,7 @@ public final class ValidationHelper {
 
     public static List<Annotation> getGlobals(TypedClass<?> c) {
         final List<Annotation> globalForField = getValidationAnnotations(c.asClass());
-        c.getAnnotations().stream().filter((a) -> isValidationAnnotation(a)).forEach((a -> globalForField.add(a)));
+        c.getAnnotations().stream().filter(a -> isValidationAnnotation(a)).forEach(a -> globalForField.add(a));
         return globalForField;
     }
 
