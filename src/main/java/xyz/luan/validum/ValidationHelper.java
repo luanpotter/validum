@@ -23,7 +23,7 @@ public final class ValidationHelper {
     }
 
     public static List<Annotation> getValidationAnnotations(Annotation[] annotations) {
-        return Arrays.stream(annotations).filter((ann) -> isValidationAnnotation(ann)).collect(Collectors.toList());
+        return Arrays.stream(annotations).filter(ann -> isValidationAnnotation(ann)).collect(Collectors.toList());
     }
 
     public static boolean isValidAnnotationType(Object value, Annotation annotation) {

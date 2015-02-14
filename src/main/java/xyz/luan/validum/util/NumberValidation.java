@@ -10,6 +10,10 @@ import xyz.luan.validum.validations.Numeric.Type;
 
 public final class NumberValidation {
 
+    private NumberValidation() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
     public static List<String> validate(Number number, Numeric annotation) {
         if (number == null) {
             return Collections.emptyList();

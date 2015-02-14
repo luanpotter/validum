@@ -42,8 +42,7 @@ public final class ToJson {
         final boolean ANNOTATIONS_MIGHT_ONLY_INHERIT_FROM_THEIR_ANNOTATION_INTERFACE = a.getClass().getInterfaces().length == 1;
         assert ANNOTATIONS_MIGHT_ONLY_INHERIT_FROM_THEIR_ANNOTATION_INTERFACE;
 
-        Class<?> annotationType = a.getClass().getInterfaces()[0];
-        return annotationType;
+        return a.getClass().getInterfaces()[0];
     }
 
     private static String annotationMethodToJson(Object value) {

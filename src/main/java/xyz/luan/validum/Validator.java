@@ -28,7 +28,7 @@ public class Validator {
 
     private Validator() {
         annotationValidators = new HashMap<>();
-        stringfy = (element) -> element == null ? null : element.toString().replace("[", "\\[").replace("]", "\\]");
+        stringfy = element -> element == null ? null : element.toString().replace("[", "\\[").replace("]", "\\]");
         useIndexForLists = true;
     }
 
