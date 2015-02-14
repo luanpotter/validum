@@ -51,7 +51,7 @@ public final class ValidationHelper {
         try {
             return f.get(obj);
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException("Totally unexpected expection!", e);
+            throw new AssertionError("Totally unexpected expection!", e);
         }
     }
 }

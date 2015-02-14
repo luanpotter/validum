@@ -34,7 +34,7 @@ public final class ToJson {
         try {
             return toMapElement(m.getName(), annotationMethodToJson(m.invoke(a)));
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
     }
 
@@ -65,7 +65,7 @@ public final class ToJson {
         if (value.getClass().isArray()) {
             return arrayToJson(value);
         }
-        throw new RuntimeException("Annotation used class type unespecified in the JVM specs: " + value.getClass());
+        throw new AssertionError("Annotation used class type unespecified in the JVM specs: " + value.getClass());
     }
 
     private static String arrayToJson(Object value) {

@@ -62,7 +62,7 @@ public @interface Array {
                 return getLengthForIterable(array);
             }
 
-            throw new RuntimeException("Unexpected array type for @Array. Must be either primitive array or a Collection.");
+            throw new AssertionError("Unexpected array type for @Array. Must be either primitive array or a Collection.");
         }
 
         private static int getLengthForIterable(Object array) {
