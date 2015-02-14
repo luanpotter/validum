@@ -19,79 +19,83 @@ import xyz.luan.validum.Validation.DefaultTypes;
 @Validation(defaultType = { DefaultTypes.ARRAY }, value = { Map.class })
 public @interface Array {
 
-	int minLength() default -1;
+    int minLength() default -1;
 
-	int maxLength() default -1;
+    int maxLength() default -1;
 
-	public static class Validator implements xyz.luan.validum.AnnotationValidator<Object, Array> {
+    public static class Validator implements xyz.luan.validum.AnnotationValidator<Object, Array> {
 
-		@Override
-		public List<String> validate(Object array, Array annotation) {
-			if (array == null) {
-				return Collections.emptyList();
-			}
+        @Override
+        public List<String> validate(Object array, Array annotation) {
+            if (array == null) {
+                return Collections.emptyList();
+            }
 
-			int size = getArrayLength(array);
-			List<String> errors = new ArrayList<>();
+            int size = getArrayLength(array);
+            List<String> errors = new ArrayList<>();
 
-			if (annotation.minLength() != -1 && size < annotation.minLength()) {
-				errors.add("Array.lengthBelow{" + annotation.minLength() + "}");
-			}
+            if (annotation.minLength() != -1 && size < annotation.minLength()) {
+                errors.add("Array.lengthBelow{" + annotation.minLength() + "}");
+            }
 
-			if (annotation.maxLength() != -1 && size > annotation.maxLength()) {
-				errors.add("Array.lengthAbove{" + annotation.maxLength() + "}");
-			}
+            if (annotation.maxLength() != -1 && size > annotation.maxLength()) {
+                errors.add("Array.lengthAbove{" + annotation.maxLength() + "}");
+            }
 
-			return errors;
-		}
+            return errors;
+        }
 
-		public static int getArrayLength(Object array) {
-			if (array.getClass().isArray()) {
-				return java.lang.reflect.Array.getLength(array);
-			}
+        public static int getArrayLength(Object array) {
+            if (array.getClass().isArray()) {
+                return java.lang.reflect.Array.getLength(array);
+            }
 
-			if (array instanceof Collection) {
-				return Collection.class.cast(array).size();
-			}
+            if (array instanceof Collection) {
+                return Collection.class.cast(array).size();
+            }
 
-			if (array instanceof Map) {
-				return Map.class.cast(array).size();
-			}
+            if (array instanceof Map) {
+                return Map.class.cast(array).size();
+            }
 
-			if (array instanceof Iterable) {
-				Iterator<?> it = Iterable.class.cast(array).iterator();
-				int i;
-				for (i = 0; it.hasNext(); i++, it.next())
-					;
-				return i;
-			}
+            if (array instanceof Iterable) {
+                return getLengthForIterable(array);
+            }
 
-			throw new RuntimeException("Unexpected array type for @Array. Must be either primitive array or a Collection.");
-		}
-	}
+            throw new RuntimeException("Unexpected array type for @Array. Must be either primitive array or a Collection.");
+        }
 
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ ElementType.FIELD, ElementType.TYPE_USE })
-	@Validation(defaultType = { DefaultTypes.ARRAY })
-	public @interface Fixed {
-		int value();
+        private static int getLengthForIterable(Object array) {
+            Iterator<?> it = Iterable.class.cast(array).iterator();
+            int i;
+            for (i = 0; it.hasNext(); i++, it.next()) {
+            }
+            return i;
+        }
+    }
 
-		public static class Validator implements xyz.luan.validum.AnnotationValidator<Object, Fixed> {
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.FIELD, ElementType.TYPE_USE })
+    @Validation(defaultType = { DefaultTypes.ARRAY })
+    public @interface Fixed {
+        int value();
 
-			@Override
-			public List<String> validate(Object array, Fixed annotation) {
-				if (array == null) {
-					return Collections.emptyList();
-				}
-				int size = xyz.luan.validum.validations.Array.Validator.getArrayLength(array);
-				List<String> errors = new ArrayList<>();
+        public static class Validator implements xyz.luan.validum.AnnotationValidator<Object, Fixed> {
 
-				if (size != annotation.value()) {
-					errors.add("Array.lengthDiffers{" + annotation.value() + "}");
-				}
+            @Override
+            public List<String> validate(Object array, Fixed annotation) {
+                if (array == null) {
+                    return Collections.emptyList();
+                }
+                int size = xyz.luan.validum.validations.Array.Validator.getArrayLength(array);
+                List<String> errors = new ArrayList<>();
 
-				return errors;
-			}
-		}
-	}
+                if (size != annotation.value()) {
+                    errors.add("Array.lengthDiffers{" + annotation.value() + "}");
+                }
+
+                return errors;
+            }
+        }
+    }
 }

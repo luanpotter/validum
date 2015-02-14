@@ -89,6 +89,6 @@ public final class ToJson {
 
     public static String typeToJson(Class<?> type) {
         String value = type.isArray() ? strToJson(ClassOutlinerNames.ARRAY_TYPE.val()) : ToJson.strToJson(type.getCanonicalName());
-		return toMapElement(ClassOutlinerNames.FIELD_TYPE, value);
-	}
+        return toMapElement(ClassOutlinerNames.FIELD_TYPE, value);
+    }
 }
