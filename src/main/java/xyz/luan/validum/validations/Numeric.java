@@ -1,6 +1,5 @@
 package xyz.luan.validum.validations;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -54,7 +53,7 @@ public @interface Numeric {
                 return NumberValidation.validate(number, new Numeric() {
 
                     @Override
-                    public Class<? extends Annotation> annotationType() {
+                    public Class<Numeric> annotationType() {
                         return Numeric.class;
                     }
 
@@ -102,7 +101,7 @@ public @interface Numeric {
                 return NumberValidation.validate(number, new Numeric() {
 
                     @Override
-                    public Class<? extends Annotation> annotationType() {
+                    public Class<Numeric> annotationType() {
                         return Numeric.class;
                     }
 
@@ -150,7 +149,7 @@ public @interface Numeric {
                 return NumberValidation.validate(number, new Numeric() {
 
                     @Override
-                    public Class<? extends Annotation> annotationType() {
+                    public Class<Numeric> annotationType() {
                         return Numeric.class;
                     }
 
