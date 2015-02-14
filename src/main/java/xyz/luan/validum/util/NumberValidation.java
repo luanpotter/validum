@@ -20,22 +20,15 @@ public final class NumberValidation {
         }
 
         List<String> errors = new ArrayList<>();
-        if (annotation.type() == Type.INTEGER) {
-            if (number.doubleValue() % 1 != 0) {
-                errors.add("Numeric.notAnInteger");
-            }
-        }
 
-        if (annotation.maxCap() == Cap.INCLUSIVE) {
-            if (number.doubleValue() > annotation.max()) {
-                errors.add("Numeric.greaterThan{" + annotation.max() + "}");
-            }
-        } else if (annotation.maxCap() == Cap.EXCLUSIVE) {
-            if (number.doubleValue() >= annotation.max()) {
-                errors.add("Numeric.greaterOrEqualTo{" + annotation.max() + "}");
-            }
-        }
+        validateType(number, annotation, errors);
+        validateMaxCap(number, annotation, errors);
+        validateMinCap(number, annotation, errors);
 
+        return errors;
+    }
+
+    private static void validateMinCap(Number number, Numeric annotation, List<String> errors) {
         if (annotation.minCap() == Cap.INCLUSIVE) {
             if (number.doubleValue() < annotation.min()) {
                 errors.add("Numeric.smallerThan{" + annotation.min() + "}");
@@ -45,8 +38,26 @@ public final class NumberValidation {
                 errors.add("Numeric.smallerOrEqualTo{" + annotation.min() + "}");
             }
         }
+    }
 
-        return errors;
+    private static void validateMaxCap(Number number, Numeric annotation, List<String> errors) {
+        if (annotation.maxCap() == Cap.INCLUSIVE) {
+            if (number.doubleValue() > annotation.max()) {
+                errors.add("Numeric.greaterThan{" + annotation.max() + "}");
+            }
+        } else if (annotation.maxCap() == Cap.EXCLUSIVE) {
+            if (number.doubleValue() >= annotation.max()) {
+                errors.add("Numeric.greaterOrEqualTo{" + annotation.max() + "}");
+            }
+        }
+    }
+
+    private static void validateType(Number number, Numeric annotation, List<String> errors) {
+        if (annotation.type() == Type.INTEGER) {
+            if (number.doubleValue() % 1 != 0) {
+                errors.add("Numeric.notAnInteger");
+            }
+        }
     }
 
 }
