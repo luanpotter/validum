@@ -39,8 +39,8 @@ public final class ToJson {
     }
 
     private static Class<?> getAnnotationType(Annotation a) {
-        final boolean ANNOTATIONS_MIGHT_ONLY_INHERIT_FROM_THEIR_ANNOTATION_INTERFACE = a.getClass().getInterfaces().length == 1;
-        assert ANNOTATIONS_MIGHT_ONLY_INHERIT_FROM_THEIR_ANNOTATION_INTERFACE;
+        final boolean annotationsMustOnlyInheritFromTheirAnnotationInterface = a.getClass().getInterfaces().length == 1;
+        assert annotationsMustOnlyInheritFromTheirAnnotationInterface;
 
         return a.getClass().getInterfaces()[0];
     }

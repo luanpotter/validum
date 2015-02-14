@@ -69,7 +69,7 @@ public class Validator {
         }
 
         for (Annotation ann : globalValidations) {
-            validateValueWith(obj, ann).forEach((error) -> errors.add(errorPrefix + error));
+            validateValueWith(obj, ann).forEach(error -> errors.add(errorPrefix + error));
         }
 
         return errors;
