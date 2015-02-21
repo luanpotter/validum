@@ -1,9 +1,10 @@
 {
-	"name": "xyz.luan.validum.entities.Power",
-	"elements": [
-		"STRENGTH",
-		"FLIGHT",
-		"TELEKINESIS",
-		"IMMORTALITY"
-	]
+    "[c]": {
+        "[k]" : "enum",
+        "[t]" : "xyz.luan.validum.entities.Power"
+    },
+    "STRENGTH" : {},
+    "FLIGHT" : {},
+    "TELEKINESIS" : {},
+    "IMMORTALITY" : {}
 }

@@ -1,8 +1,9 @@
 {
-	"name": "xyz.luan.validum.entities.Weakness",
-	"elements": [
-		"KRIPTONITE",
-		"HEIGHT",
-		"CATS"
-	]
+    "[c]": {
+        "[k]" : "enum",
+        "[t]" : "xyz.luan.validum.entities.Weakness"
+    },
+    "KRIPTONITE" : {},
+    "HEIGHT" : {},
+    "CATS" : {}
 }

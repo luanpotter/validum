@@ -1,9 +1,10 @@
 package xyz.luan.validum.outliner;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import xyz.luan.validum.annotation.ToJson;
+import xyz.luan.validum.util.StreamUtil;
 
 public final class EnumOutliner {
 
@@ -12,13 +13,15 @@ public final class EnumOutliner {
 	}
 
 	public static String getJson(Class<? extends Enum<?>> c) {
-		String name = ToJson.toMapElement("name", ToJson.strToJson(c.getCanonicalName()));
-		String elements = ToJson.toMapElement("elements", getElements(c));
-		return "{ " + name + ", " + elements + " }";
+		String definition = ToJson.toMapElement(ClassOutlinerNames.CLASS_DESCRIPTION, getClassDefinition(c));
+		return ToJson.streamToMap(StreamUtil.add(definition, getElements(c)));
 	}
 
-	private static String getElements(Class<? extends Enum<?>> c) {
-		String elements = Arrays.stream(c.getEnumConstants()).map(e -> ToJson.strToJson(e.toString())).collect(Collectors.joining(", "));
-		return "[ " + elements + " ]";
+	private static String getClassDefinition(Class<? extends Enum<?>> c) {
+		return ToJson.streamToMap(StreamUtil.toStream(ToJson.kindToJson("enum"), ToJson.typeToJson(c)));
+	}
+
+	private static Stream<String> getElements(Class<? extends Enum<?>> c) {
+		return Arrays.stream(c.getEnumConstants()).map(e -> ToJson.toMapElement(e.toString(), ToJson.EMPTY_MAP));
 	}
 }

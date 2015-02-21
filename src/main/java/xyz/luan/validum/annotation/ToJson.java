@@ -12,6 +12,8 @@ import xyz.luan.validum.outliner.ClassOutlinerNames;
 
 public final class ToJson {
 
+	public static final String EMPTY_MAP = "{}";
+
 	private ToJson() {
 		throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
 	}
@@ -27,7 +29,7 @@ public final class ToJson {
 	}
 
 	public static String toMapElement(String keyString, String valueJson) {
-		return "\"" + keyString + "\": " + valueJson;
+		return strToJson(keyString) + ": " + valueJson;
 	}
 
 	private static String getMethodJson(Annotation a, Method m) {
