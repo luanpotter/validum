@@ -1,0 +1,9 @@
+{
+	"name": "xyz.luan.validum.entities.Power",
+	"elements": [
+		"STRENGTH",
+		"FLIGHT",
+		"TELEKINESIS",
+		"IMMORTALITY"
+	]
+}
