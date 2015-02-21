@@ -15,7 +15,7 @@ public class StreamUtil {
     }
 
     @SafeVarargs
-    public static <T> Stream<T> addToEnd(Stream<T> s, T... el) {
+    public static <T> Stream<T> addToBeginning(Stream<T> s, T... el) {
         return Stream.concat(toStream(el), s);
     }
 

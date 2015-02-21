@@ -77,7 +77,7 @@ validum.validate = function(rawObj, className) {
 
 		var classLevelValidations = function() {
 			validum._.each(classDef['[c]'], function(name, validation) {
-				if (name === '[t]') {
+				if (name === '[t]' || name === '[k]') {
 					return;
 				}
 				applyValidation(name, obj, validation, prefix);

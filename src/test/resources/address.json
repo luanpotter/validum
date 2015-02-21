@@ -1,5 +1,6 @@
 {
     "[c]": {
+    	"[k]" : "class",
         "[t]": "xyz.luan.validum.entities.Address",
         "@xyz.luan.validum.customs.ValidAddress": {}
     },
