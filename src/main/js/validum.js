@@ -62,10 +62,13 @@ validum.validate = function(rawObj, className) {
 				}
 				if (name === '[c]') {
 					// TODO validate array elements
+					throw new Error('NotImplementedYet');
 				} else if (name === '[k]') {
 					// TODO validate map keys
+					throw new Error('NotImplementedYet');
 				} else if (name === '[v]') {
 					// TODO validate map values
+					throw new Error('NotImplementedYet');
 				} else {
 					applyValidation(name, converted, validation, fieldPrefix);
 				}
