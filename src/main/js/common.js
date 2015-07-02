@@ -20,3 +20,7 @@ validum._.eachField = function(object, callback) {
 		return callback(key, value);
 	});
 };
+
+validum._.contains = function(array, value) {
+	return array.indexOf(value) !== -1;
+};

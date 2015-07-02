@@ -42,6 +42,18 @@ public class ValidatorsJsTest extends BaseJsTest {
         assertEmptyErrors(errors);
     }
 
+    @Test
+    public void testEnumExpectValid() throws NoSuchMethodException, ScriptException {
+        Object errors = runValidate(map().add("name", "Karl").add("weakness", "HEIGHT").build(), "xyz.luan.validum.entities.AdvancedPerson");
+        assertEmptyErrors(errors);
+    }
+
+    @Test
+    public void testEnumExpectInvalid() throws NoSuchMethodException, ScriptException {
+        Object errors = runValidate(map().add("name", "Karl").add("weakness", "KRYPTONITE").build(), "xyz.luan.validum.entities.AdvancedPerson");
+        assertErrors(errors, ":weakness:EnumExcept.in{KRYPTONITE}");
+    }
+
     private Object runValidate(Object... args) throws ScriptException, NoSuchMethodException {
         return validum.callMember("validateJava", args);
     }

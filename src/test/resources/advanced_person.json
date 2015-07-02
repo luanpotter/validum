@@ -7,9 +7,9 @@
         "[t]" : "xyz.luan.validum.entities.Power",
         "@xyz.luan.validum.validations.EnumOnly": {
             "value": [
-                "strength",
-                "flight",
-                "telekinesis"
+                "STRENGTH",
+                "FLIGHT",
+                "TELEKINESIS"
             ]
         }
     },
@@ -17,7 +17,7 @@
         "[t]" : "xyz.luan.validum.entities.Weakness",
         "@xyz.luan.validum.validations.EnumExcept": {
             "value": [
-                "kriptonite"
+                "KRYPTONITE"
             ]
         }
     },

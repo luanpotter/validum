@@ -38,6 +38,12 @@ public class StructuralJsTest extends BaseJsTest {
         assertErrors(errors, ":address:ValidAddress.invalidAddress");
     }
 
+    @Test
+    public void testEnumValidation() throws NoSuchMethodException, ScriptException {
+        Object errors = runValidate(map().add("name", "Josh").add("power", "POWER_WORD").build(), "xyz.luan.validum.entities.AdvancedPerson");
+        assertErrors(errors, ":power:InvalidEnumConstant{POWER_WORD}");
+    }
+
     private Object runValidate(Object... args) throws ScriptException, NoSuchMethodException {
         return validum.callMember("validateJava", args);
     }

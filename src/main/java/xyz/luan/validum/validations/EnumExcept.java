@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import xyz.luan.validum.Validation;
 
@@ -16,7 +17,7 @@ import xyz.luan.validum.Validation;
 public @interface EnumExcept {
 
     String[] value() default {};
-    
+
     public static class Validator implements xyz.luan.validum.AnnotationValidator<Enum<?>, EnumExcept> {
 
         @Override
@@ -25,13 +26,13 @@ public @interface EnumExcept {
                 return Collections.emptyList();
             }
 
-            for (String t : annotation.value()) {
-                if (enumeration.name().equalsIgnoreCase(t)) {
-                    return Arrays.asList("EnumExcept.was{" + t + "}"); 
-                }
+            boolean invalid = Arrays.asList(annotation.value()).contains(enumeration.name());
+            if (!invalid) {
+                return Collections.emptyList();
             }
-            
-            return Collections.emptyList();
+
+            String allInvalid = Arrays.asList(annotation.value()).stream().collect(Collectors.joining(","));
+            return Arrays.asList("EnumExcept.in{" + allInvalid + "}");
         }
     }
 }

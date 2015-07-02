@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import xyz.luan.validum.Validation;
 
@@ -25,17 +26,13 @@ public @interface EnumOnly {
                 return Collections.emptyList();
             }
 
-            StringBuilder b = new StringBuilder();
-            for (String t : annotation.value()) {
-                if (enumeration.name().equalsIgnoreCase(t)) {
-                    return Collections.emptyList();
-                }
-                b.append(t);
-                b.append(",");
+            boolean valid = Arrays.asList(annotation.value()).contains(enumeration.name());
+            if (valid) {
+                return Collections.emptyList();
             }
-            
-            b.setLength(Math.max(b.length() - 1, 0));
-            return Arrays.asList("EnumOnly.notIn{" + b + "}");
+
+            String onlyValid = Arrays.asList(annotation.value()).stream().collect(Collectors.joining(","));
+            return Arrays.asList("EnumOnly.notIn{" + onlyValid + "}");
         }
     }
 }

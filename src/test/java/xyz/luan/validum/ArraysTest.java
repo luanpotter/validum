@@ -37,7 +37,7 @@ public class ArraysTest extends BaseTest {
             {
                 add(Weakness.CATS);
                 add(null);
-                add(Weakness.KRIPTONITE);
+                add(Weakness.KRYPTONITE);
             }
         }, null, null);
         List<String> errors = validator.validate(god);

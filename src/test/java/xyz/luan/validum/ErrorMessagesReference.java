@@ -18,8 +18,8 @@ public final class ErrorMessagesReference {
     public static final String LENGTH_ABOVE = "Array.lengthAbove";
     public static final String LENGTH_DIFFERS = "Array.lengthDiffers";
 
-    public static final String ENUM_NOT_IN = "EnumOnly.notIn";
-    public static final String ENUM_WAS = "EnumExcept.was";
+    public static final String ENUM_ONLY = "EnumOnly.notIn";
+    public static final String ENUM_EXCEPT = "EnumExcept.in";
 
     public static final String INVALID_ADDRESS = ValidAddress.class.getCanonicalName() + ".invalidAddress";
     public static final String NOT_PALINDROME = PalindromeString.class.getCanonicalName() + ".notPalindrome";

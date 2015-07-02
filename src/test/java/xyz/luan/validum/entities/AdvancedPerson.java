@@ -5,10 +5,10 @@ import xyz.luan.validum.validations.EnumOnly;
 
 public class AdvancedPerson extends Person {
 
-	@EnumOnly({ "strength", "flight", "telekinesis" })
+    @EnumOnly({ "STRENGTH", "FLIGHT", "TELEKINESIS" })
     private Power power;
-    
-    @EnumExcept("kriptonite")
+
+    @EnumExcept({ "KRYPTONITE" })
     private Weakness weakness;
 
     public AdvancedPerson(String name, int age, Address address, Power power, Weakness weakness) {
@@ -16,11 +16,11 @@ public class AdvancedPerson extends Person {
         this.power = power;
         this.weakness = weakness;
     }
-    
+
     public Weakness getWeakness() {
         return this.weakness;
     }
-    
+
     public Power getPower() {
         return this.power;
     }

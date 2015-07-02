@@ -68,5 +68,19 @@ validum.validators = (function() {
 		});
 	};
 
+	map[PACKAGE + 'EnumExcept'] = function(val, ann) {
+		if (val === null) {
+			return [];
+		}
+		return validum._.contains(ann.value, val) ? [ 'EnumExcept.in{' + ann.value.join() + '}' ] : [];
+	};
+
+	map[PACKAGE + 'EnumOnly'] = function(val, ann) {
+		if (val === null) {
+			return [];
+		}
+		return validum._.contains(ann.value, val) ? [] : [ 'EnumOnly.notIn{' + ann.value.join() + '}' ];
+	};
+
 	return map;
 })();

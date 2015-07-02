@@ -1,7 +1,7 @@
 package xyz.luan.validum;
 
-import static xyz.luan.validum.ErrorMessagesReference.ENUM_NOT_IN;
-import static xyz.luan.validum.ErrorMessagesReference.ENUM_WAS;
+import static xyz.luan.validum.ErrorMessagesReference.ENUM_ONLY;
+import static xyz.luan.validum.ErrorMessagesReference.ENUM_EXCEPT;
 import static xyz.luan.validum.ErrorMessagesReference.REQUIRED;
 import static xyz.luan.validum.ErrorMessagesReference.SMALLER_THAN;
 
@@ -33,7 +33,7 @@ public class StructuralTest extends BaseTest {
         Person person = new AdvancedPerson(null, 21, address, Power.IMMORTALITY, Weakness.CATS);
 
         List<String> errors = validator.validate(person);
-        assertListEquals(errors, ":power:" + ENUM_NOT_IN + "{strength,flight,telekinesis}", ":name:" + REQUIRED);
+        assertListEquals(errors, ":power:" + ENUM_ONLY + "{STRENGTH,FLIGHT,TELEKINESIS}", ":name:" + REQUIRED);
     }
 
     @Test
@@ -48,10 +48,10 @@ public class StructuralTest extends BaseTest {
     @Test
     public void testInvalidAdvancedPersonWithInalidAddress() {
         Address address = new Address("Baker Street", -221, "Apartment B");
-        Person person = new AdvancedPerson("Flying Rat Man", 21, address, Power.FLIGHT, Weakness.KRIPTONITE);
+        Person person = new AdvancedPerson("Flying Rat Man", 21, address, Power.FLIGHT, Weakness.KRYPTONITE);
 
         List<String> errors = validator.validate(person);
-        assertListEquals(errors, ":address:number:" + SMALLER_THAN + "{0.0}", ":weakness:" + ENUM_WAS + "{kriptonite}");
+        assertListEquals(errors, ":address:number:" + SMALLER_THAN + "{0.0}", ":weakness:" + ENUM_EXCEPT + "{KRYPTONITE}");
     }
 
     @Test
