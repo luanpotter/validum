@@ -45,7 +45,7 @@ public class BaseJsTest {
         engine.eval(reader("validum_java_binder.js"));
         engine.eval(reader("custom_validators.js"));
 
-        setupClasses(engine, new String[] { "address", "person", "advanced_person", "god" });
+        setupClasses(engine, new String[] { "address", "person", "advanced_person", "god", "power", "weakness" });
 
         return invocable;
     }

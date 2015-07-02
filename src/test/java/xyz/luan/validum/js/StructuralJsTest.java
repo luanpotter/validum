@@ -31,6 +31,13 @@ public class StructuralJsTest extends BaseJsTest {
         assertErrors(errors, ":ValidAddress.invalidAddress");
     }
 
+    @Test
+    public void testMultiLevelClassLevelValidation() throws NoSuchMethodException, ScriptException {
+        JsonBuilder address = map().add("street", "Bad Street");
+        Object errors = runValidate(map().add("name", "Josh").add("address", address).build(), "xyz.luan.validum.entities.Person");
+        assertErrors(errors, ":address:ValidAddress.invalidAddress");
+    }
+
     private Object runValidate(Object... args) throws ScriptException, NoSuchMethodException {
         return validum.callMember("validateJava", args);
     }

@@ -96,7 +96,7 @@ validum.convert = (function() {
 	var convertObject = function(typeDef) {
 		return function(obj) {
 			if (typeof obj !== 'object') {
-				throw new ConverterException('InconvertableTypes{' + (typeof obj) + ', ' + typeDef + '}');
+				throw new ConverterException('InconvertableTypes{' + (typeof obj) + ', ' + typeDef + ' [class]}');
 			}
 			var result = createJavaObject(typeDef);
 			validum._.each(obj, function(name, value) {
@@ -105,9 +105,28 @@ validum.convert = (function() {
 				}
 				result[name] = value;
 			});
-			validum._.each(typeDef, function(name) {
+			validum._.eachField(typeDef, function(name) {
 				result[name] = result[name] || null;
 			});
+			return result;
+		};
+	};
+
+	var convertEnum = function(typeDef) {
+		return function(obj) {
+			var result;
+			if (typeof obj !== 'string') {
+				throw new ConverterException('InconvertableTypes{' + (typeof obj) + ', ' + typeDef + ' [enum]}');
+			}
+			validum._.eachField(typeDef, function(enumConstant) {
+				if (enumConstant === obj) {
+					result = enumConstant;
+					return true;
+				}
+			});
+			if (!result) {
+				throw new ConverterException('InvalidEnumConstant{' + obj + '}');
+			}
 			return result;
 		};
 	};
@@ -129,10 +148,16 @@ validum.convert = (function() {
 		}
 		validum._.each(classDefs, function(_i, classDef) {
 			var className = classDef['[c]']['[t]'];
-			types[className] = convertObject(classDef);
+			var kind = classDef['[c]']['[k]'];
+			if (kind === 'class') {
+				types[className] = convertObject(classDef);
+			} else if (kind === 'enum') {
+				types[className] = convertEnum(classDef);
+			} else {
+				throw new Error('Invalid kind: ' + kind);
+			}
 		});
 	};
 
 	return convert;
-
 })();

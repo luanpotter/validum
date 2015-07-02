@@ -10,6 +10,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import xyz.luan.validum.entities.Power;
+
 public class ConverterTest extends BaseJsTest {
 
     @Test
@@ -72,7 +74,27 @@ public class ConverterTest extends BaseJsTest {
         final String text = "my string";
         Object ret = runConverter(text, String.class);
         Assert.assertEquals(String.class, ret.getClass());
-        Assert.assertEquals("my string", ret);
+        Assert.assertEquals(text, ret);
+    }
+
+    @Test
+    public void testEnumConvertion() throws NoSuchMethodException, ScriptException {
+        final String value = "FLIGHT";
+        Object ret = runConverter(value, Power.class);
+        Assert.assertEquals(String.class, ret.getClass());
+        Assert.assertEquals(value, ret);
+    }
+
+    @Test
+    public void testEnumConvertionInvalidValue() throws NoSuchMethodException {
+        final String value = "OMNIPOTENCE";
+        try {
+            runConverter(value, Power.class);
+        } catch (ECMAException ex) {
+            assertFailure(ex, "InvalidEnumConstant{" + value + "}");
+            return;
+        }
+        Assert.fail("Should have thrown ConverterException");
     }
 
     private Object runConverter(String obj, Class<?> type) throws ECMAException, NoSuchMethodException {
