@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -50,43 +51,70 @@ public class BaseJsTest {
         return invocable;
     }
 
-    public static class JsonBuilder {
-        private Map<String, Object> map;
+    public interface JsonElement {
+        public String toJson();
+    }
 
-        public JsonBuilder() {
-            this.map = new HashMap<>();
+    public static class JsonString implements JsonElement {
+        private String str;
+
+        public JsonString(String str) {
+            this.str = str;
         }
 
-        public JsonBuilder add(String key, String value) {
-            this.map.put(key, value);
-            return this;
-        }
-
-        public JsonBuilder add(String key, JsonBuilder obj) {
-            this.map.put(key, obj.map);
-            return this;
-        }
-
-        private static String wrap(String str) {
+        @Override
+        public String toJson() {
             return '"' + str + '"';
-        }
-
-        @SuppressWarnings("unchecked")
-        public static String mapToString(Map<String, Object> map) {
-            return "{" + map.keySet().stream().map((k) -> {
-                Object element = map.get(k);
-                String elementString = element instanceof Map ? mapToString((Map<String, Object>) element) : wrap(element.toString());
-                return '"' + k + "\": " + elementString;
-            }).collect(Collectors.joining(", ")) + " }";
-        }
-
-        public String build() {
-            return mapToString(this.map);
         }
     }
 
-    public static JsonBuilder map() {
-        return new JsonBuilder();
+    public static class JsonArrayBuilder implements JsonElement {
+        private List<JsonElement> array;
+
+        public JsonArrayBuilder add(String value) {
+            return add(new JsonString(value));
+        }
+
+        public JsonArrayBuilder add(JsonElement value) {
+            this.array.add(value);
+            return this;
+        }
+
+        @Override
+        public String toJson() {
+            return "[" + array.stream().map(e -> e.toJson()).collect(Collectors.joining(", ")) + "]";
+        }
+    }
+
+    public static class JsonMapBuilder implements JsonElement {
+        private Map<String, JsonElement> map;
+
+        public JsonMapBuilder() {
+            this.map = new HashMap<>();
+        }
+
+        public JsonMapBuilder add(String key, String value) {
+            return add(key, new JsonString(value));
+        }
+
+        public JsonMapBuilder add(String key, JsonElement obj) {
+            this.map.put(key, obj);
+            return this;
+        }
+
+        @Override
+        public String toJson() {
+            Stream<String> toMap = map.keySet().stream().map(k -> '"' + k + "\": " + map.get(k).toJson());
+            return "{" + toMap.collect(Collectors.joining(", ")) + " }";
+        }
+    }
+
+    public static JsonMapBuilder map() {
+        return new JsonMapBuilder();
+    }
+
+    public static JsonArrayBuilder array() {
+        return new JsonArrayBuilder();
     }
 
     public static String deepToString(Object object) {

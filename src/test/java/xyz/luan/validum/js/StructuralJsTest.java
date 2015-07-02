@@ -14,33 +14,33 @@ public class StructuralJsTest extends BaseJsTest {
 
     @Test
     public void testMultiLevelValidation() throws NoSuchMethodException, ScriptException {
-        Object errors = runValidate(map().add("address", map()).build(), "xyz.luan.validum.entities.Person");
+        Object errors = runValidate(map().add("address", map()).toJson(), "xyz.luan.validum.entities.Person");
         assertErrors(errors, ":address:street:Required.empty", ":name:Required.empty");
     }
 
     @Test
     public void testMultiLevelValidationValid() throws NoSuchMethodException, ScriptException {
-        JsonBuilder address = map().add("street", "2nd Street");
-        Object errors = runValidate(map().add("name", "Karl").add("address", address).build(), "xyz.luan.validum.entities.Person");
+        JsonMapBuilder address = map().add("street", "2nd Street");
+        Object errors = runValidate(map().add("name", "Karl").add("address", address).toJson(), "xyz.luan.validum.entities.Person");
         assertEmptyErrors(errors);
     }
 
     @Test
     public void testClassLevelValidation() throws NoSuchMethodException, ScriptException {
-        Object errors = runValidate(map().add("street", "Bad Street").build(), "xyz.luan.validum.entities.Address");
+        Object errors = runValidate(map().add("street", "Bad Street").toJson(), "xyz.luan.validum.entities.Address");
         assertErrors(errors, ":ValidAddress.invalidAddress");
     }
 
     @Test
     public void testMultiLevelClassLevelValidation() throws NoSuchMethodException, ScriptException {
-        JsonBuilder address = map().add("street", "Bad Street");
-        Object errors = runValidate(map().add("name", "Josh").add("address", address).build(), "xyz.luan.validum.entities.Person");
+        JsonMapBuilder address = map().add("street", "Bad Street");
+        Object errors = runValidate(map().add("name", "Josh").add("address", address).toJson(), "xyz.luan.validum.entities.Person");
         assertErrors(errors, ":address:ValidAddress.invalidAddress");
     }
 
     @Test
     public void testEnumValidation() throws NoSuchMethodException, ScriptException {
-        Object errors = runValidate(map().add("name", "Josh").add("power", "POWER_WORD").build(), "xyz.luan.validum.entities.AdvancedPerson");
+        Object errors = runValidate(map().add("name", "Josh").add("power", "POWER_WORD").toJson(), "xyz.luan.validum.entities.AdvancedPerson");
         assertErrors(errors, ":power:InvalidEnumConstant{POWER_WORD}");
     }
 

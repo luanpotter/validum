@@ -100,5 +100,4 @@ public class ConverterTest extends BaseJsTest {
     private Object runConverter(String obj, Class<?> type) throws ECMAException, NoSuchMethodException {
         return validum.callMember("convert", obj, type.getCanonicalName());
     }
-
 }
