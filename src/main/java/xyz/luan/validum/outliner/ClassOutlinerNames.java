@@ -4,7 +4,8 @@ public enum ClassOutlinerNames {
 
     CLASS_DESCRIPTION('c'), // represents the main block of the class object where we find the kind, type and class level annotations
     KIND('k'), // the kind can be class or enum
-    TYPE('t'), // the type is the canonical name of the type 
+    TYPE('t'), // the type is the canonical name of the type
+    PARENT('p'), // the parent class to this class
 
     ARRAY_ELEMENT('e'), // in an array type, refers to the elements
     MAP_KEY('k'), // in an map type, refers to the keys

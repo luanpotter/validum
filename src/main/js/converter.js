@@ -149,13 +149,19 @@ validum.convert = (function() {
 		validum._.each(classDefs, function(_i, classDef) {
 			var className = classDef['[c]']['[t]'];
 			var kind = classDef['[c]']['[k]'];
+			var parent = classDef['[c]']['[p]'];
 			if (kind === 'class') {
+				if (parent) {
+					var parentClassDef = (types[parent] || { classDef: classDefs[classDef] }).classDef;
+					validum._.extend(classDef, parentClassDef);
+				}
 				types[className] = convertObject(classDef);
 			} else if (kind === 'enum') {
 				types[className] = convertEnum(classDef);
 			} else {
 				throw new Error('Invalid kind: ' + kind);
 			}
+			types[className].classDef = classDef;
 		});
 	};
 

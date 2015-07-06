@@ -71,6 +71,10 @@ public class BaseJsTest {
     public static class JsonArrayBuilder implements JsonElement {
         private List<JsonElement> array;
 
+        public JsonArrayBuilder() {
+            this.array = new ArrayList<>();
+        }
+
         public JsonArrayBuilder add(String value) {
             return add(new JsonString(value));
         }

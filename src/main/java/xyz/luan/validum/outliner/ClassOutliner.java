@@ -1,17 +1,18 @@
 package xyz.luan.validum.outliner;
 
 import static xyz.luan.validum.annotation.ToJson.annotationToJson;
+import static xyz.luan.validum.annotation.ToJson.kindToJson;
 import static xyz.luan.validum.annotation.ToJson.streamToMap;
 import static xyz.luan.validum.annotation.ToJson.toMapElement;
 import static xyz.luan.validum.annotation.ToJson.typeToJson;
-import static xyz.luan.validum.annotation.ToJson.kindToJson;
+import static xyz.luan.validum.annotation.ToJson.parentToJson;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import xyz.luan.reflection.ReflectionUtils;
 import xyz.luan.reflection.tclass.TypedClass;
 import xyz.luan.validum.ValidationHelper;
 import xyz.luan.validum.util.StreamUtil;
@@ -23,7 +24,7 @@ public final class ClassOutliner {
 	}
 
 	public static String getJson(Class<?> c) {
-		return getJson(c, ReflectionUtils.getFieldsRecursively(c));
+		return getJson(c, Arrays.asList(c.getDeclaredFields()));
 	}
 
 	public static String getJson(Class<?> c, List<Field> fields) {
@@ -51,7 +52,11 @@ public final class ClassOutliner {
 
 	public static String getClassLevelAnnotations(Class<?> c) {
 		Stream<String> annotations = getAnnotations(ValidationHelper.getValidationAnnotations(c));
-		return streamToMap(StreamUtil.addToBeginning(annotations, typeToJson(c), kindToJson("class")));
+		Stream<String> stream = StreamUtil.addToBeginning(annotations, typeToJson(c), kindToJson("class"));
+		if (!c.getSuperclass().equals(Object.class)) {
+			stream = StreamUtil.add(stream, parentToJson(c.getSuperclass()));
+		}
+		return streamToMap(stream);
 	}
 
 	private static Stream<String> getAnnotations(List<Annotation> annotations) {

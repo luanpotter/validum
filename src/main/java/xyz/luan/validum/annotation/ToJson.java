@@ -92,6 +92,10 @@ public final class ToJson {
 		return toMapElement(ClassOutlinerNames.TYPE, value);
 	}
 
+	public static String parentToJson(Class<?> type) {
+		return toMapElement(ClassOutlinerNames.PARENT, strToJson(type.getCanonicalName()));
+	}
+
 	public static String kindToJson(String kind) {
 		return toMapElement(ClassOutlinerNames.KIND, strToJson(kind));
 	}
